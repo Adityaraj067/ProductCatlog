@@ -15,6 +15,7 @@ class Product(models.Model):
         ("Winter", "Winter"),
         ("All Season", "All Season"),
     ]
+
     pr_id = models.AutoField(primary_key=True)
     pr_cate = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     pr_name = models.CharField(max_length=100)
@@ -34,6 +35,33 @@ class Product(models.Model):
     def __str__(self):
         return self.pr_name
 
+    def is_in_stock(self):
+        """Return True if the product is in stock."""
+        return self.pr_stk_quant > 0
+
+    def get_discounted_price(self):
+        """Return price after applying offers if any (dummy logic)."""
+        # Example: parse pr_offers for a percentage discount
+        if self.pr_offers and '%' in self.pr_offers:
+            try:
+                percent = int(self.pr_offers.replace('%', '').strip())
+                return self.pr_price * (1 - percent / 100)
+            except Exception:
+                pass
+        return self.pr_price
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.pr_price < 0:
+            raise ValidationError('Price must be non-negative.')
+        if self.pr_stk_quant < 0:
+            raise ValidationError('Stock quantity must be non-negative.')
+
+    class Meta:
+        ordering = ['-pr_id']
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
+
 # Seller Model
 class Seller(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -44,18 +72,6 @@ class Seller(models.Model):
     def __str__(self):
         return self.shop_name
 
-# User Profile Extension
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=20, blank=True)
-    address = models.TextField(blank=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
-    wallet_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    cart = models.OneToOneField('Cart', on_delete=models.SET_NULL, null=True, blank=True)
-
-    def __str__(self):
-        return self.user.username
-
 # Cart Model
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -63,6 +79,35 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"Cart of {self.user.username}"
+
+    def total_price(self):
+        return sum(item.product.pr_price * item.quantity for item in self.items.select_related('product').all())
+
+# CartItem Model
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.pr_name}"
+
+# User Profile Extension
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    wallet_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    def __str__(self):
+        return self.user.username
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        import re
+        if self.phone and not re.match(r'^\+?\d{7,15}$', self.phone):
+            raise ValidationError('Enter a valid phone number.')
 
 # Wishlist Model
 class Wishlist(models.Model):
@@ -72,7 +117,7 @@ class Wishlist(models.Model):
     def __str__(self):
         return f"Wishlist of {self.user.username}"
 
-# Ordered Item Model
+# OrderedItem Model
 class OrderedItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
@@ -114,11 +159,3 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment {self.id} for Order {self.order.id}"
-
-class CartItem(models.Model):
-    cart = models.ForeignKey('Cart', on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-
-    def __str__(self):
-        return f"{self.quantity} x {self.product.pr_name}"

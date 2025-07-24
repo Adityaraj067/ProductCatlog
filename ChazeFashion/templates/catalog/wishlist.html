@@ -4,53 +4,51 @@
 
 {% block content %}
 <div class="container mx-auto">
-    <h1 class="text-3xl font-bold mb-8">My Wishlist</h1>
+    <!-- Decorative Wishlist Banner -->
+    <div class="w-full flex justify-center items-center py-4 bg-gradient-to-r from-emerald-900 via-emerald-700 to-blue-900 rounded-xl mb-8 animate-fade-in">
+        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80" alt="Wishlist Banner" class="h-16 w-16 rounded-full shadow-lg mr-4 object-cover"/>
+        <span class="text-2xl font-bold ambient-accent">My Wishlist</span>
+    </div>
+    <h1 class="text-3xl font-bold mb-8 ambient-accent animate-fade-in" data-aos="fade-down">My Wishlist</h1>
     
     {% if wishlist.products.all %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in">
             {% for product in wishlist.products.all %}
-            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+            <div class="card glass-card ambient-border shadow-xl hover:shadow-emerald-300 hover:scale-105 transition-all duration-300" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:1 }}00">
                 <figure class="px-4 pt-4">
                     {% if product.pr_images %}
-                        <img src="{{ product.pr_images.url }}" alt="{{ product.pr_name }}" 
-                             class="rounded-xl h-48 w-full object-cover" />
+                        <img src="{{ product.pr_images.url }}" alt="{{ product.pr_name }}" class="rounded-xl h-48 w-full object-cover transition-transform duration-300 hover:scale-110" />
                     {% else %}
-                        <div class="bg-base-300 rounded-xl h-48 w-full flex items-center justify-center">
-                            <i class="fas fa-tshirt text-6xl text-base-content opacity-50"></i>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=200&q=80" alt="Default Product" class="h-20 w-20 rounded-full opacity-60 mx-auto" />
                     {% endif %}
                 </figure>
                 <div class="card-body">
-                    <h2 class="card-title">{{ product.pr_name }}</h2>
+                    <h2 class="card-title ambient-accent">{{ product.pr_name }}</h2>
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="badge badge-primary">{{ product.pr_cate }}</span>
-                        <span class="badge badge-secondary">{{ product.pr_season }}</span>
+                        <span class="badge ambient-btn animate-pulse">{{ product.pr_cate }}</span>
+                        <span class="badge ambient-btn animate-bounce">{{ product.pr_season }}</span>
                     </div>
                     
                     {% if product.pr_brand %}
-                        <p class="text-sm text-base-content opacity-70">Brand: {{ product.pr_brand }}</p>
+                        <p class="text-sm ambient-text opacity-70">Brand: <span class="font-semibold ambient-accent">{{ product.pr_brand }}</span></p>
                     {% endif %}
                     
                     <div class="flex items-center justify-between mb-2">
-                        <div class="text-2xl font-bold text-primary">${{ product.pr_price }}</div>
+                        <div class="text-2xl font-bold ambient-accent">${{ product.pr_price }}</div>
                         <div class="rating rating-sm">
                             {% for i in "12345" %}
                                 {% if forloop.counter <= product.pr_reviews %}
-                                    <input type="radio" name="rating-{{ product.pr_id }}" 
-                                           class="mask mask-star-2 bg-orange-400" checked disabled />
+                                    <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" checked disabled />
                                 {% else %}
-                                    <input type="radio" name="rating-{{ product.pr_id }}" 
-                                           class="mask mask-star-2 bg-orange-400" disabled />
+                                    <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" disabled />
                                 {% endif %}
                             {% endfor %}
                         </div>
                     </div>
                     
                     <div class="card-actions justify-end">
-                        <a href="{% url 'product_detail' product.pr_id %}" class="btn btn-primary btn-sm">
-                            View Details
-                        </a>
-                        <a href="{% url 'add_to_cart' product.pr_id %}" class="btn btn-outline btn-sm">
+                        <a href="{% url 'product_detail' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-105">View Details</a>
+                        <a href="{% url 'add_to_cart' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
                     </div>
@@ -59,13 +57,13 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="text-center py-12">
-            <div class="text-6xl mb-4">💝</div>
-            <h3 class="text-xl font-semibold mb-2">Your wishlist is empty</h3>
-            <p class="text-base-content opacity-70 mb-6">
+        <div class="text-center py-12 animate-fade-in" data-aos="fade-up">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80" alt="Empty Wishlist" class="mx-auto mb-4 rounded-full shadow-md h-20 w-20 object-cover opacity-70"/>
+            <h3 class="text-xl font-semibold mb-2 ambient-accent">Your wishlist is empty</h3>
+            <p class="ambient-text opacity-70 mb-6">
                 Start adding products to your wishlist to save them for later!
             </p>
-            <a href="{% url 'product_list' %}" class="btn btn-primary btn-lg">
+            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105">
                 <i class="fas fa-shopping-bag mr-2"></i>
                 Browse Products
             </a>

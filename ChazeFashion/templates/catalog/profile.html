@@ -3,106 +3,95 @@
 {% block title %}Profile - ChazeFashion{% endblock %}
 
 {% block content %}
-<div class="container mx-auto">
-    <h1 class="text-3xl font-bold mb-8">My Profile</h1>
-    
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Profile Info -->
-        <div class="lg:col-span-1">
-            <div class="card bg-base-100 shadow-xl">
-                <div class="card-body text-center">
-                    <div class="avatar mb-4">
-                        <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                            {% if user_profile.avatar %}
-                                <img src="{{ user_profile.avatar.url }}" alt="{{ user.username }}" />
-                            {% else %}
-                                <div class="bg-primary text-primary-content rounded-full w-24 h-24 flex items-center justify-center">
-                                    <span class="text-3xl font-bold">{{ user.username|first|upper }}</span>
+<div class="min-h-screen bg-gradient-to-br from-[#181c2f] via-[#232946] to-[#181c2f] py-8">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-8 ambient-accent animate-fade-in" data-aos="fade-down">My Profile</h1>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Profile Info -->
+            <div class="lg:col-span-1">
+                <div class="card glass-card ambient-border shadow-xl animate-fade-in" data-aos="zoom-in">
+                    <div class="card-body text-center">
+                        <div class="avatar mb-4 flex flex-col items-center">
+                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80" alt="Profile Illustration" class="rounded-full shadow-md h-20 w-20 object-cover mb-2"/>
+                            <div class="w-24 rounded-full ring ring-emerald-400 ring-offset-base-100 ring-offset-2 mx-auto">
+                                {% if user_profile.avatar %}
+                                    <img src="{{ user_profile.avatar.url }}" alt="{{ user.username }}" class="transition-transform duration-500 hover:scale-110" />
+                                {% else %}
+                                    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" background="transparent" speed="1" style="width: 96px; height: 96px; margin: 0 auto;" loop autoplay></lottie-player>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold ambient-accent animate-fade-in">{{ user.username }}</h2>
+                        <p class="ambient-text opacity-70 animate-fade-in">{{ user.email }}</p>
+                        <div class="divider ambient-accent"></div>
+                        <div class="text-left space-y-2 animate-fade-in">
+                            {% if user_profile.phone %}
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-phone ambient-accent"></i>
+                                    <span class="badge ambient-btn">{{ user_profile.phone }}</span>
                                 </div>
                             {% endif %}
-                        </div>
-                    </div>
-                    
-                    <h2 class="text-2xl font-bold">{{ user.username }}</h2>
-                    <p class="text-base-content opacity-70">{{ user.email }}</p>
-                    
-                    <div class="divider"></div>
-                    
-                    <div class="text-left space-y-2">
-                        {% if user_profile.phone %}
+                            {% if user_profile.address %}
+                                <div class="flex items-start gap-2">
+                                    <i class="fas fa-map-marker-alt ambient-accent mt-1"></i>
+                                    <span class="badge ambient-btn">{{ user_profile.address }}</span>
+                                </div>
+                            {% endif %}
                             <div class="flex items-center gap-2">
-                                <i class="fas fa-phone text-primary"></i>
-                                <span>{{ user_profile.phone }}</span>
+                                <i class="fas fa-wallet ambient-accent"></i>
+                                <span class="badge ambient-btn animate-pulse">Wallet: ${{ user_profile.wallet_balance }}</span>
                             </div>
-                        {% endif %}
-                        
-                        {% if user_profile.address %}
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-map-marker-alt text-primary mt-1"></i>
-                                <span>{{ user_profile.address }}</span>
-                            </div>
-                        {% endif %}
-                        
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-wallet text-primary"></i>
-                            <span>Wallet Balance: ${{ user_profile.wallet_balance }}</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Edit Profile Form -->
-        <div class="lg:col-span-2">
-            <div class="card bg-base-100 shadow-xl">
-                <div class="card-body">
-                    <h2 class="card-title text-xl mb-6">Edit Profile</h2>
-                    
-                    <form method="post" enctype="multipart/form-data" class="space-y-4">
-                        {% csrf_token %}
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Edit Profile Form -->
+            <div class="lg:col-span-2">
+                <div class="card glass-card ambient-border shadow-xl animate-fade-in" data-aos="fade-left">
+                    <div class="card-body">
+                        <h2 class="card-title text-xl mb-6 ambient-accent">Edit Profile</h2>
+                        <form method="post" enctype="multipart/form-data" class="space-y-4 animate-fade-in">
+                            {% csrf_token %}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold ambient-text">Phone Number</span>
+                                    </label>
+                                    {{ form.phone }}
+                                    {% if form.phone.errors %}
+                                        <label class="label">
+                                            <span class="label-text-alt text-error">{{ form.phone.errors.0 }}</span>
+                                        </label>
+                                    {% endif %}
+                                </div>
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold ambient-text">Profile Picture</span>
+                                    </label>
+                                    {{ form.avatar }}
+                                    {% if form.avatar.errors %}
+                                        <label class="label">
+                                            <span class="label-text-alt text-error">{{ form.avatar.errors.0 }}</span>
+                                        </label>
+                                    {% endif %}
+                                </div>
+                            </div>
                             <div class="form-control">
                                 <label class="label">
-                                    <span class="label-text font-semibold">Phone Number</span>
+                                    <span class="label-text font-semibold ambient-text">Address</span>
                                 </label>
-                                {{ form.phone }}
-                                {% if form.phone.errors %}
+                                {{ form.address }}
+                                {% if form.address.errors %}
                                     <label class="label">
-                                        <span class="label-text-alt text-error">{{ form.phone.errors.0 }}</span>
+                                        <span class="label-text-alt text-error">{{ form.address.errors.0 }}</span>
                                     </label>
                                 {% endif %}
                             </div>
-                            
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text font-semibold">Profile Picture</span>
-                                </label>
-                                {{ form.avatar }}
-                                {% if form.avatar.errors %}
-                                    <label class="label">
-                                        <span class="label-text-alt text-error">{{ form.avatar.errors.0 }}</span>
-                                    </label>
-                                {% endif %}
+                            <div class="form-control mt-6">
+                                <button type="submit" class="btn ambient-btn btn-lg w-full transition-transform duration-200 hover:scale-105">Update Profile</button>
                             </div>
-                        </div>
-                        
-                        <div class="form-control">
-                            <label class="label">
-                                <span class="label-text font-semibold">Address</span>
-                            </label>
-                            {{ form.address }}
-                            {% if form.address.errors %}
-                                <label class="label">
-                                    <span class="label-text-alt text-error">{{ form.address.errors.0 }}</span>
-                                </label>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="form-control mt-6">
-                            <button type="submit" class="btn btn-primary">Update Profile</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

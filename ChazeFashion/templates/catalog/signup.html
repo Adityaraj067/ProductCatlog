@@ -3,67 +3,64 @@
 {% block title %}Sign Up - ChazeFashion{% endblock %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center bg-base-200">
-    <div class="card w-96 bg-base-100 shadow-xl">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#181c2f] via-[#232946] to-[#181c2f]" data-aos="fade-in">
+    <div class="card w-96 glass-card ambient-border shadow-2xl animate-fade-in" data-aos="zoom-in">
         <div class="card-body">
-            <h2 class="card-title text-2xl font-bold text-center mb-6">Create Account</h2>
-            
-            <form method="post" class="space-y-4">
+            <div class="flex flex-col items-center mb-4">
+                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=120&q=80" alt="Signup Illustration" class="rounded-full shadow-md h-20 w-20 object-cover mb-2"/>
+                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_ktwnwv5m.json" background="transparent" speed="1" style="width: 100px; height: 100px;" loop autoplay></lottie-player>
+            </div>
+            <h2 class="card-title text-2xl font-bold text-center mb-6 ambient-accent">Create Account</h2>
+            <form method="post" class="space-y-4 animate-fade-in">
                 {% csrf_token %}
-                
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">Username</span>
+                        <span class="label-text ambient-text">Username</span>
                     </label>
-                    <input type="text" name="username" placeholder="Choose a username" 
-                           class="input input-bordered" required />
+                    <input type="text" name="username" placeholder="Choose a username" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required />
                     {% if form.username.errors %}
                         <label class="label">
                             <span class="label-text-alt text-error">{{ form.username.errors.0 }}</span>
                         </label>
                     {% endif %}
                 </div>
-                
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">Password</span>
+                        <span class="label-text ambient-text">Password</span>
                     </label>
-                    <input type="password" name="password1" placeholder="Enter your password" 
-                           class="input input-bordered" required />
+                    <input type="password" name="password1" placeholder="Enter your password" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required />
                     {% if form.password1.errors %}
                         <label class="label">
                             <span class="label-text-alt text-error">{{ form.password1.errors.0 }}</span>
                         </label>
                     {% endif %}
                 </div>
-                
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">Confirm Password</span>
+                        <span class="label-text ambient-text">Confirm Password</span>
                     </label>
-                    <input type="password" name="password2" placeholder="Confirm your password" 
-                           class="input input-bordered" required />
+                    <input type="password" name="password2" placeholder="Confirm your password" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required />
                     {% if form.password2.errors %}
                         <label class="label">
                             <span class="label-text-alt text-error">{{ form.password2.errors.0 }}</span>
                         </label>
                     {% endif %}
                 </div>
-                
                 <div class="form-control mt-6">
-                    <button type="submit" class="btn btn-primary">Create Account</button>
+                    <button type="submit" class="btn ambient-btn btn-lg w-full transition-transform duration-200 hover:scale-105">Create Account</button>
                 </div>
             </form>
-            
-            <div class="divider">OR</div>
-            
+            <div class="divider ambient-accent">OR</div>
             <div class="text-center">
-                <p class="text-sm text-base-content opacity-70 mb-4">
+                <p class="text-sm ambient-text opacity-70 mb-4">
                     Already have an account?
                 </p>
-                <a href="{% url 'login' %}" class="btn btn-outline btn-wide">
+                <a href="{% url 'login' %}" class="btn btn-outline btn-wide ambient-accent transition-transform duration-200 hover:scale-105 hover:border-emerald-500">
                     Login
                 </a>
+            </div>
+            <div class="mt-4 text-center text-xs ambient-text opacity-60">
+                <span>🌙 Try dark mode for a new look!</span>
             </div>
         </div>
     </div>

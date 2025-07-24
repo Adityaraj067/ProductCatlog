@@ -4,130 +4,69 @@
 
 {% block content %}
 <!-- Hero Section -->
-<div class="hero min-h-[60vh] bg-gradient-to-r from-primary to-secondary">
-    <div class="hero-content text-center text-neutral-content">
-        <div class="max-w-md">
-            <h1 class="mb-5 text-5xl font-bold">Welcome to ChazeFashion</h1>
-            <p class="mb-5">Discover the latest trends in fashion. From casual wear to formal attire, we have everything you need to express your unique style.</p>
-            <a href="{% url 'product_list' %}" class="btn btn-primary">Shop Now</a>
+<div class="hero min-h-[60vh] bg-gradient-to-r from-[#181c2f] to-[#232946] relative overflow-hidden" data-aos="fade-down">
+    <div class="absolute inset-0 bg-gradient-to-br from-emerald-900/60 to-blue-900/80 pointer-events-none"></div>
+    <div class="hero-content text-center text-neutral-content relative z-10">
+        <div class="max-w-md glass-card ambient-border p-8" data-aos="zoom-in">
+            <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_3rwasyjy.json" background="transparent" speed="1" style="width: 180px; height: 180px; margin: 0 auto 1.5rem auto;" loop autoplay aria-label="Fashion animation"></lottie-player>
+            <h1 class="mb-5 text-5xl font-extrabold ambient-accent animate-fade-in">Welcome to <span class="text-white">ChazeFashion</span></h1>
+            <p class="mb-5 text-lg animate-fade-in ambient-text" data-aos="fade-up">Discover the latest trends in fashion. From casual wear to formal attire, we have everything you need to express your unique style.</p>
+            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg shadow-lg transition-transform duration-300 hover:scale-105 animate-bounce">Shop Now</a>
+            <div class="mt-6 flex justify-center">
+                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_ktwnwv5m.json" background="transparent" speed="1" style="width: 80px; height: 80px;" loop autoplay aria-label="Shop now animation"></lottie-player>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Categories Section -->
-<div class="py-16 bg-base-200">
+<div class="py-16 bg-gradient-to-br from-[#232946] to-[#181c2f]">
     <div class="container mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12">Shop by Category</h2>
+        <h2 class="text-3xl font-bold text-center mb-12 ambient-accent animate-fade-in">Shop by Category</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+            {% for cat, label in home_categories %}
+            <div class="card glass-card ambient-border shadow-xl hover:shadow-emerald-300 hover:scale-105 transition-all duration-300" data-aos="flip-left">
                 <figure class="px-10 pt-10">
                     <div class="avatar placeholder">
-                        <div class="bg-primary text-primary-content rounded-full w-24">
-                            <span class="text-3xl">👨</span>
+                        <div class="bg-emerald-700 text-white rounded-full w-24 animate-pulse flex items-center justify-center">
+                            <span class="text-3xl">{% if cat == 'Men' %}👨{% elif cat == 'Women' %}👩{% elif cat == 'Boys' %}👦{% elif cat == 'Girls' %}👧{% else %}👶{% endif %}</span>
                         </div>
                     </div>
                 </figure>
                 <div class="card-body items-center text-center">
-                    <h2 class="card-title">Men</h2>
-                    <p class="text-sm">Stylish clothing for men</p>
+                    <h2 class="card-title"><span class="badge ambient-btn animate-bounce">{{ label }}</span></h2>
+                    <p class="text-sm ambient-text">{{ label }}'s fashion</p>
                     <div class="card-actions">
-                        <a href="{% url 'product_list' %}?category=Men" class="btn btn-primary btn-sm">Shop Men</a>
+                        <a href="{% url 'product_list' %}?category={{ cat }}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110">Shop {{ label }}</a>
                     </div>
                 </div>
             </div>
-            
-            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
-                <figure class="px-10 pt-10">
-                    <div class="avatar placeholder">
-                        <div class="bg-secondary text-secondary-content rounded-full w-24">
-                            <span class="text-3xl">👩</span>
-                        </div>
-                    </div>
-                </figure>
-                <div class="card-body items-center text-center">
-                    <h2 class="card-title">Women</h2>
-                    <p class="text-sm">Elegant fashion for women</p>
-                    <div class="card-actions">
-                        <a href="{% url 'product_list' %}?category=Women" class="btn btn-secondary btn-sm">Shop Women</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
-                <figure class="px-10 pt-10">
-                    <div class="avatar placeholder">
-                        <div class="bg-accent text-accent-content rounded-full w-24">
-                            <span class="text-3xl">👦</span>
-                        </div>
-                    </div>
-                </figure>
-                <div class="card-body items-center text-center">
-                    <h2 class="card-title">Boys</h2>
-                    <p class="text-sm">Cool clothes for boys</p>
-                    <div class="card-actions">
-                        <a href="{% url 'product_list' %}?category=Boys" class="btn btn-accent btn-sm">Shop Boys</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
-                <figure class="px-10 pt-10">
-                    <div class="avatar placeholder">
-                        <div class="bg-info text-info-content rounded-full w-24">
-                            <span class="text-3xl">👧</span>
-                        </div>
-                    </div>
-                </figure>
-                <div class="card-body items-center text-center">
-                    <h2 class="card-title">Girls</h2>
-                    <p class="text-sm">Pretty dresses for girls</p>
-                    <div class="card-actions">
-                        <a href="{% url 'product_list' %}?category=Girls" class="btn btn-info btn-sm">Shop Girls</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
-                <figure class="px-10 pt-10">
-                    <div class="avatar placeholder">
-                        <div class="bg-success text-success-content rounded-full w-24">
-                            <span class="text-3xl">👶</span>
-                        </div>
-                    </div>
-                </figure>
-                <div class="card-body items-center text-center">
-                    <h2 class="card-title">Toddler</h2>
-                    <p class="text-sm">Comfortable baby clothes</p>
-                    <div class="card-actions">
-                        <a href="{% url 'product_list' %}?category=Toddler" class="btn btn-success btn-sm">Shop Toddler</a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
 
 <!-- Featured Products Section -->
-<div class="py-16">
+<div class="py-16 bg-gradient-to-br from-[#181c2f] to-[#232946]">
     <div class="container mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12">Featured Products</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h2 class="text-3xl font-bold text-center mb-12 ambient-accent animate-fade-in">Featured Products</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
             {% for product in products %}
-            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+            <div class="card glass-card ambient-border shadow-xl hover:shadow-emerald-300 hover:scale-105 transition-all duration-300" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:1 }}00">
                 <figure class="px-4 pt-4">
                     {% if product.pr_images %}
-                        <img src="{{ product.pr_images.url }}" alt="{{ product.pr_name }}" class="rounded-xl h-48 w-full object-cover" />
+                        <img src="{{ product.pr_images.url }}" alt="{{ product.pr_name }}" class="rounded-xl h-48 w-full object-cover transition-transform duration-300 hover:scale-110" />
                     {% else %}
                         <div class="bg-base-300 rounded-xl h-48 w-full flex items-center justify-center">
-                            <i class="fas fa-tshirt text-6xl text-base-content opacity-50"></i>
+                            <i class="fas fa-tshirt text-6xl ambient-accent opacity-50"></i>
                         </div>
                     {% endif %}
                 </figure>
                 <div class="card-body">
-                    <h2 class="card-title">{{ product.pr_name }}</h2>
-                    <p class="text-sm text-base-content opacity-70">{{ product.pr_cate }}</p>
+                    <h2 class="card-title ambient-accent">{{ product.pr_name }}</h2>
+                    <p class="text-sm ambient-text opacity-70"><span class="badge ambient-btn animate-pulse">{{ product.pr_cate }}</span></p>
                     <div class="flex items-center justify-between">
-                        <div class="text-2xl font-bold text-primary">${{ product.pr_price }}</div>
+                        <div class="text-2xl font-bold ambient-accent">${{ product.pr_price }}</div>
                         <div class="rating rating-sm">
                             {% for i in "12345" %}
                                 {% if forloop.counter <= product.pr_reviews %}
@@ -139,9 +78,9 @@
                         </div>
                     </div>
                     <div class="card-actions justify-end">
-                        <a href="{% url 'product_detail' product.pr_id %}" class="btn btn-primary btn-sm">View Details</a>
+                        <a href="{% url 'product_detail' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-105">View Details</a>
                         {% if user.is_authenticated %}
-                            <a href="{% url 'add_to_cart' product.pr_id %}" class="btn btn-outline btn-sm">
+                            <a href="{% url 'add_to_cart' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110">
                                 <i class="fas fa-shopping-cart"></i>
                             </a>
                         {% endif %}
@@ -149,41 +88,46 @@
                 </div>
             </div>
             {% empty %}
-            <div class="col-span-full text-center py-12">
-                <div class="text-6xl mb-4">👕</div>
-                <h3 class="text-xl font-semibold mb-2">No products available</h3>
-                <p class="text-base-content opacity-70">Check back soon for new arrivals!</p>
+            <div class="col-span-full text-center py-12 animate-fade-in">
+                <div class="text-6xl mb-4 ambient-accent">👕</div>
+                <h3 class="text-xl font-semibold mb-2 ambient-accent">No products available</h3>
+                <p class="ambient-text opacity-70">Check back soon for new arrivals!</p>
             </div>
             {% endfor %}
         </div>
-        
         {% if products %}
         <div class="text-center mt-8">
-            <a href="{% url 'product_list' %}" class="btn btn-primary btn-lg">View All Products</a>
+            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105">View All Products</a>
         </div>
         {% endif %}
     </div>
 </div>
 
 <!-- Features Section -->
-<div class="py-16 bg-base-200">
+<div class="py-16 bg-gradient-to-br from-[#232946] to-[#181c2f]" data-aos="fade-up">
     <div class="container mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12">Why Choose ChazeFashion?</h2>
+        <h2 class="text-3xl font-bold text-center mb-12 ambient-accent animate-fade-in">Why Choose ChazeFashion?</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center">
-                <div class="text-4xl mb-4">🚚</div>
-                <h3 class="text-xl font-semibold mb-2">Fast Delivery</h3>
-                <p class="text-base-content opacity-70">Get your fashion items delivered to your doorstep quickly and safely.</p>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex flex-col items-center mb-4">
+                    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_4kx2q32n.json" background="transparent" speed="1" style="width: 60px; height: 60px;" loop autoplay aria-label="Fast delivery animation"></lottie-player>
+                </div>
+                <h3 class="text-xl font-semibold mb-2 ambient-accent">Fast Delivery</h3>
+                <p class="ambient-text opacity-70">Get your fashion items delivered to your doorstep quickly and safely.</p>
             </div>
-            <div class="text-center">
-                <div class="text-4xl mb-4">💎</div>
-                <h3 class="text-xl font-semibold mb-2">Quality Products</h3>
-                <p class="text-base-content opacity-70">We offer only the highest quality clothing and accessories.</p>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex flex-col items-center mb-4">
+                    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" background="transparent" speed="1" style="width: 60px; height: 60px;" loop autoplay aria-label="Quality products animation"></lottie-player>
+                </div>
+                <h3 class="text-xl font-semibold mb-2 ambient-accent">Quality Products</h3>
+                <p class="ambient-text opacity-70">We offer only the highest quality clothing and accessories.</p>
             </div>
-            <div class="text-center">
-                <div class="text-4xl mb-4">🛡️</div>
-                <h3 class="text-xl font-semibold mb-2">Secure Shopping</h3>
-                <p class="text-base-content opacity-70">Your security is our priority with safe and secure payment options.</p>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                <div class="flex flex-col items-center mb-4">
+                    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_ktwnwv5m.json" background="transparent" speed="1" style="width: 60px; height: 60px;" loop autoplay aria-label="Secure shopping animation"></lottie-player>
+                </div>
+                <h3 class="text-xl font-semibold mb-2 ambient-accent">Secure Shopping</h3>
+                <p class="ambient-text opacity-70">Your security is our priority with safe and secure payment options.</p>
             </div>
         </div>
     </div>

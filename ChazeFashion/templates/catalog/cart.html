@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}ChazeFashion - Your Cart{% endblock %}
+
+{% block content %}
+<!-- Decorative Cart Banner -->
+<div class="w-full flex justify-center items-center py-4 bg-gradient-to-r from-emerald-900 via-emerald-700 to-blue-900 rounded-xl mb-8 animate-fade-in">
+    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80" alt="Cart Banner" class="h-16 rounded-lg shadow-lg mr-4 object-cover"/>
+    <span class="text-2xl font-bold ambient-accent">Your Cart</span>
+</div>
+<div class="container mx-auto max-w-3xl animate-fade-in">
+    <h2 class="text-3xl font-bold mb-6 ambient-accent">Your Cart</h2>
+    <form method="post" class="glass-card ambient-border shadow-xl rounded-lg p-6">
+        {% csrf_token %}
+        <div class="overflow-x-auto">
+            <table class="table w-full transition-all duration-500 hover:shadow-emerald-200">
+                <thead>
+                    <tr class="ambient-text">
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr class="hover:bg-emerald-900/30 transition-colors duration-300 ambient-text">
+                        <td class="flex items-center gap-4">
+                            {% if item.product.pr_images %}
+                                <img src="{{ item.product.pr_images.url }}" alt="{{ item.product.pr_name }}" class="w-16 h-16 object-cover rounded shadow-md transition-transform duration-300 hover:scale-110" />
+                            {% else %}
+                                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=200&q=80" alt="Default Product" class="w-16 h-16 rounded shadow-md opacity-60" />
+                            {% endif %}
+                            <span class="font-semibold ambient-accent">{{ item.product.pr_name }}</span>
+                        </td>
+                        <td class="ambient-accent font-bold">₹{{ item.product.pr_price }}</td>
+                        <td>
+                            <input type="number" name="quantity_{{ item.id }}" value="{{ item.quantity }}" min="1" class="input input-bordered input-xs w-16 bg-[#232946] ambient-text" />
+                        </td>
+                        <td class="font-semibold">
+                            ₹{{ item.product.pr_price|floatformat:2|add:"0"|floatformat:2|floatformat:"2"|floatformat }} x {{ item.quantity }} = <span class="ambient-accent font-bold animate-pulse">₹{{ item.product.pr_price|floatformat:2|add:"0"|floatformat:2|floatformat:"2"|floatformat|floatformat|add:item.quantity|floatformat }}</span>
+                        </td>
+                        <td>
+                            <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-error btn-xs transition-transform duration-200 hover:scale-110">Remove</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center ambient-accent py-8">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80" alt="Empty Cart" class="mx-auto mb-4 rounded-full shadow-md h-20 w-20 object-cover opacity-70"/>
+                        <div class="text-xl font-semibold mb-2">Your cart is empty.</div>
+                    </td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="flex justify-between items-center mt-6">
+            <div class="text-xl font-bold ambient-accent animate-glow">Total: <span class="ambient-accent animate-pulse">₹{{ total }}</span></div>
+            <button type="submit" class="btn ambient-btn transition-transform duration-200 hover:scale-105" {% if not cart_items %}disabled{% endif %}>Update Cart</button>
+        </div>
+        <div class="mt-4 flex justify-end">
+            <button class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105" disabled>Checkout (Coming Soon)</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
