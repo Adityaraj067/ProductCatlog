@@ -9,7 +9,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Profile Info -->
             <div class="lg:col-span-1">
-                <div class="card glass-card ambient-border shadow-xl animate-fade-in" data-aos="zoom-in">
+                <div class="card glass-card ambient-border shadow-xl animate-fade-in" data-aos="zoom-in" aria-label="Profile info">
                     <div class="card-body text-center">
                         <div class="avatar mb-4 flex flex-col items-center">
                             <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80" alt="Profile Illustration" class="rounded-full shadow-md h-20 w-20 object-cover mb-2"/>
@@ -17,7 +17,7 @@
                                 {% if user_profile.avatar %}
                                     <img src="{{ user_profile.avatar.url }}" alt="{{ user.username }}" class="transition-transform duration-500 hover:scale-110" />
                                 {% else %}
-                                    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" background="transparent" speed="1" style="width: 96px; height: 96px; margin: 0 auto;" loop autoplay></lottie-player>
+                                    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" background="transparent" speed="1" style="width: 96px; height: 96px; margin: 0 auto;" loop autoplay aria-label="Animated profile icon"></lottie-player>
                                 {% endif %}
                             </div>
                         </div>
@@ -50,11 +50,11 @@
                 <div class="card glass-card ambient-border shadow-xl animate-fade-in" data-aos="fade-left">
                     <div class="card-body">
                         <h2 class="card-title text-xl mb-6 ambient-accent">Edit Profile</h2>
-                        <form method="post" enctype="multipart/form-data" class="space-y-4 animate-fade-in">
+                        <form method="post" enctype="multipart/form-data" class="space-y-4 animate-fade-in" aria-label="Edit profile form" id="profile-form">
                             {% csrf_token %}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="form-control">
-                                    <label class="label">
+                                    <label class="label" for="id_phone">
                                         <span class="label-text font-semibold ambient-text">Phone Number</span>
                                     </label>
                                     {{ form.phone }}
@@ -65,7 +65,7 @@
                                     {% endif %}
                                 </div>
                                 <div class="form-control">
-                                    <label class="label">
+                                    <label class="label" for="id_avatar">
                                         <span class="label-text font-semibold ambient-text">Profile Picture</span>
                                     </label>
                                     {{ form.avatar }}
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="form-control">
-                                <label class="label">
+                                <label class="label" for="id_address">
                                     <span class="label-text font-semibold ambient-text">Address</span>
                                 </label>
                                 {{ form.address }}
@@ -88,7 +88,10 @@
                                 {% endif %}
                             </div>
                             <div class="form-control mt-6">
-                                <button type="submit" class="btn ambient-btn btn-lg w-full transition-transform duration-200 hover:scale-105">Update Profile</button>
+                                <button type="submit" class="btn ambient-btn btn-lg w-full transition-transform duration-200 hover:scale-105 focus:ring-4 focus:ring-emerald-400 focus:outline-none relative">
+                                    <span id="profile-btn-text">Update Profile</span>
+                                    <span id="profile-spinner" class="loading loading-spinner loading-sm ambient-accent absolute right-4 top-1/2 -translate-y-1/2 hidden"></span>
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -97,4 +100,22 @@
         </div>
     </div>
 </div>
+<script>
+    // Show spinner and disable button on profile update submit
+    document.getElementById('profile-form').addEventListener('submit', function(e) {
+        document.getElementById('profile-btn-text').classList.add('opacity-50');
+        document.getElementById('profile-spinner').classList.remove('hidden');
+        this.querySelector('button[type="submit"]').setAttribute('disabled', 'disabled');
+    });
+    // Show toast for error messages if Django messages are present
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                window.addEventListener('DOMContentLoaded', function() {
+                    showToast("{{ message|escapejs }}");
+                });
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
 {% endblock %} 

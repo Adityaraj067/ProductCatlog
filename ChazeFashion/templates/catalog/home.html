@@ -4,14 +4,14 @@
 
 {% block content %}
 <!-- Hero Section -->
-<div class="hero min-h-[60vh] bg-gradient-to-r from-[#181c2f] to-[#232946] relative overflow-hidden" data-aos="fade-down">
+<div class="hero min-h-[60vh] bg-gradient-to-r from-[#181c2f] to-[#232946] relative overflow-hidden" data-aos="fade-down" aria-label="Hero section">
     <div class="absolute inset-0 bg-gradient-to-br from-emerald-900/60 to-blue-900/80 pointer-events-none"></div>
     <div class="hero-content text-center text-neutral-content relative z-10">
         <div class="max-w-md glass-card ambient-border p-8" data-aos="zoom-in">
             <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_3rwasyjy.json" background="transparent" speed="1" style="width: 180px; height: 180px; margin: 0 auto 1.5rem auto;" loop autoplay aria-label="Fashion animation"></lottie-player>
             <h1 class="mb-5 text-5xl font-extrabold ambient-accent animate-fade-in">Welcome to <span class="text-white">ChazeFashion</span></h1>
             <p class="mb-5 text-lg animate-fade-in ambient-text" data-aos="fade-up">Discover the latest trends in fashion. From casual wear to formal attire, we have everything you need to express your unique style.</p>
-            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg shadow-lg transition-transform duration-300 hover:scale-105 animate-bounce">Shop Now</a>
+            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg shadow-lg transition-transform duration-300 hover:scale-105 animate-bounce focus:ring-4 focus:ring-emerald-400 focus:outline-none" aria-label="Shop now">Shop Now</a>
             <div class="mt-6 flex justify-center">
                 <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_ktwnwv5m.json" background="transparent" speed="1" style="width: 80px; height: 80px;" loop autoplay aria-label="Shop now animation"></lottie-player>
             </div>
@@ -23,24 +23,15 @@
 <div class="py-16 bg-gradient-to-br from-[#232946] to-[#181c2f]">
     <div class="container mx-auto">
         <h2 class="text-3xl font-bold text-center mb-12 ambient-accent animate-fade-in">Shop by Category</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {% for cat, label in home_categories %}
-            <div class="card glass-card ambient-border shadow-xl hover:shadow-emerald-300 hover:scale-105 transition-all duration-300" data-aos="flip-left">
-                <figure class="px-10 pt-10">
-                    <div class="avatar placeholder">
-                        <div class="bg-emerald-700 text-white rounded-full w-24 animate-pulse flex items-center justify-center">
-                            <span class="text-3xl">{% if cat == 'Men' %}👨{% elif cat == 'Women' %}👩{% elif cat == 'Boys' %}👦{% elif cat == 'Girls' %}👧{% else %}👶{% endif %}</span>
-                        </div>
-                    </div>
-                </figure>
-                <div class="card-body items-center text-center">
-                    <h2 class="card-title"><span class="badge ambient-btn animate-bounce">{{ label }}</span></h2>
-                    <p class="text-sm ambient-text">{{ label }}'s fashion</p>
-                    <div class="card-actions">
-                        <a href="{% url 'product_list' %}?category={{ cat }}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110">Shop {{ label }}</a>
-                    </div>
+        <!-- Centered Horizontal Categories -->
+        <div class="flex flex-row gap-8 overflow-x-auto pb-4 px-2 scrollbar-thin scrollbar-thumb-emerald-700 scrollbar-track-transparent w-full justify-center" aria-label="Category row">
+            {% for cat, label, img_url in home_categories %}
+            <a href="{% url 'product_list' %}?category={{ cat }}" class="flex flex-col items-center min-w-[8rem] focus:ring-2 focus:ring-emerald-400 transition-transform duration-200 hover:scale-105" aria-label="Category: {{ label }}">
+                <div class="w-32 h-32 flex items-center justify-center text-6xl font-bold shadow-lg bg-emerald-700 text-white" style="border-radius:0;">
+                    {% if cat == 'Men' %}👨{% elif cat == 'Women' %}👩{% elif cat == 'Boys' %}👦{% elif cat == 'Girls' %}👧{% else %}👶{% endif %}
                 </div>
-            </div>
+                <span class="mt-4 text-lg font-bold ambient-accent">{{ label }}</span>
+            </a>
             {% endfor %}
         </div>
     </div>
@@ -70,17 +61,17 @@
                         <div class="rating rating-sm">
                             {% for i in "12345" %}
                                 {% if forloop.counter <= product.pr_reviews %}
-                                    <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" checked disabled />
+                                    <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" checked disabled aria-label="Rated star" />
                                 {% else %}
-                                    <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" disabled />
+                                    <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" disabled aria-label="Unrated star" />
                                 {% endif %}
                             {% endfor %}
                         </div>
                     </div>
                     <div class="card-actions justify-end">
-                        <a href="{% url 'product_detail' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-105">View Details</a>
+                        <a href="{% url 'product_detail' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-105 focus:ring-2 focus:ring-emerald-400" aria-label="View details for {{ product.pr_name }}">View Details</a>
                         {% if user.is_authenticated %}
-                            <a href="{% url 'add_to_cart' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110">
+                            <a href="{% url 'add_to_cart' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110 focus:ring-2 focus:ring-emerald-400" aria-label="Add {{ product.pr_name }} to cart">
                                 <i class="fas fa-shopping-cart"></i>
                             </a>
                         {% endif %}
@@ -97,7 +88,7 @@
         </div>
         {% if products %}
         <div class="text-center mt-8">
-            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105">View All Products</a>
+            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105 focus:ring-4 focus:ring-emerald-400 focus:outline-none" aria-label="View all products">View All Products</a>
         </div>
         {% endif %}
     </div>
@@ -132,4 +123,16 @@
         </div>
     </div>
 </div>
+<script>
+    // Show toast for error messages if Django messages are present
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                window.addEventListener('DOMContentLoaded', function() {
+                    showToast("{{ message|escapejs }}");
+                });
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
 {% endblock %} 

@@ -10,7 +10,7 @@
         <span class="text-2xl font-bold ambient-accent">Product Details</span>
     </div>
     <!-- Breadcrumb -->
-    <div class="text-sm breadcrumbs mb-6 ambient-text" data-aos="fade-down">
+    <div class="text-sm breadcrumbs mb-6 ambient-text" data-aos="fade-down" aria-label="Breadcrumb">
         <ul>
             <li><a href="{% url 'home' %}" class="transition-colors duration-200 hover:text-emerald-400">Home</a></li>
             <li><a href="{% url 'product_list' %}" class="transition-colors duration-200 hover:text-emerald-400">Products</a></li>
@@ -19,7 +19,7 @@
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Product Image -->
-        <div class="card glass-card ambient-border shadow-xl" data-aos="zoom-in">
+        <div class="card glass-card ambient-border shadow-xl" data-aos="zoom-in" aria-label="Product image">
             <figure class="px-4 pt-4">
                 {% if product.pr_images %}
                     <img src="{{ product.pr_images.url }}" alt="{{ product.pr_name }}" class="rounded-xl w-full h-96 object-cover transition-transform duration-500 hover:scale-105" />
@@ -44,9 +44,9 @@
                     <div class="rating rating-md">
                         {% for i in "12345" %}
                             {% if forloop.counter <= product.pr_reviews %}
-                                <input type="radio" name="rating" class="mask mask-star-2 bg-orange-400" checked disabled />
+                                <input type="radio" name="rating" class="mask mask-star-2 bg-orange-400" checked disabled aria-label="Rated star" />
                             {% else %}
-                                <input type="radio" name="rating" class="mask mask-star-2 bg-orange-400" disabled />
+                                <input type="radio" name="rating" class="mask mask-star-2 bg-orange-400" disabled aria-label="Unrated star" />
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -74,7 +74,7 @@
                 </div>
             </div>
             <!-- Product Specifications -->
-            <div class="card glass-card ambient-border animate-fade-in" data-aos="fade-up">
+            <div class="card glass-card ambient-border animate-fade-in" data-aos="fade-up" aria-label="Product specifications">
                 <div class="card-body">
                     <h2 class="card-title text-lg mb-4 ambient-accent">Product Details</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -115,21 +115,21 @@
             <div class="flex flex-wrap gap-4 mt-4 animate-fade-in">
                 {% if user.is_authenticated %}
                     {% if product.pr_stk_quant > 0 %}
-                        <form action="{% url 'add_to_cart' product.pr_id %}" method="post" class="flex items-center gap-2">
+                        <form action="{% url 'add_to_cart' product.pr_id %}" method="post" class="flex items-center gap-2" id="add-to-cart-form" aria-label="Add to cart form">
                             {% csrf_token %}
-                            <input type="number" name="quantity" value="1" min="1" max="{{ product.pr_stk_quant }}" class="input input-bordered input-lg w-24" />
-                            <button type="submit" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105">
-                                <i class="fas fa-shopping-cart mr-2"></i>
-                                Add to Cart
+                            <input type="number" name="quantity" value="1" min="1" max="{{ product.pr_stk_quant }}" class="input input-bordered input-lg w-24 focus:ring-2 focus:ring-emerald-400" aria-label="Quantity" />
+                            <button type="submit" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105 focus:ring-4 focus:ring-emerald-400 focus:outline-none relative">
+                                <span id="add-to-cart-btn-text"> <i class="fas fa-shopping-cart mr-2"></i> Add to Cart</span>
+                                <span id="add-to-cart-spinner" class="loading loading-spinner loading-sm ambient-accent absolute right-4 top-1/2 -translate-y-1/2 hidden"></span>
                             </button>
                         </form>
                     {% endif %}
-                    <a href="{% url 'add_to_wishlist' product.pr_id %}" class="btn btn-outline btn-lg ambient-accent transition-transform duration-200 hover:scale-105 hover:border-emerald-500">
+                    <a href="{% url 'add_to_wishlist' product.pr_id %}" class="btn btn-outline btn-lg ambient-accent transition-transform duration-200 hover:scale-105 hover:border-emerald-500 focus:ring-2 focus:ring-emerald-400" aria-label="Add to wishlist">
                         <i class="fas fa-heart mr-2"></i>
                         Add to Wishlist
                     </a>
                 {% else %}
-                    <a href="{% url 'login' %}" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105">
+                    <a href="{% url 'login' %}" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105 focus:ring-4 focus:ring-emerald-400 focus:outline-none" aria-label="Login to purchase">
                         <i class="fas fa-sign-in-alt mr-2"></i>
                         Login to Purchase
                     </a>
@@ -138,7 +138,7 @@
         </div>
     </div>
     <!-- Reviews Section -->
-    <div class="mt-12" data-aos="fade-up">
+    <div class="mt-12" data-aos="fade-up" aria-label="Customer reviews">
         <h2 class="text-2xl font-bold mb-6 ambient-accent">Customer Reviews</h2>
         {% if reviews %}
             <div class="space-y-4">
@@ -157,9 +157,9 @@
                             <div class="rating rating-sm">
                                 {% for i in "12345" %}
                                     {% if forloop.counter <= review.rating %}
-                                        <input type="radio" name="rating-{{ review.id }}" class="mask mask-star-2 bg-orange-400" checked disabled />
+                                        <input type="radio" name="rating-{{ review.id }}" class="mask mask-star-2 bg-orange-400" checked disabled aria-label="Rated star" />
                                     {% else %}
-                                        <input type="radio" name="rating-{{ review.id }}" class="mask mask-star-2 bg-orange-400" disabled />
+                                        <input type="radio" name="rating-{{ review.id }}" class="mask mask-star-2 bg-orange-400" disabled aria-label="Unrated star" />
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -183,4 +183,25 @@
         {% endif %}
     </div>
 </div>
+<script>
+    // Show spinner and disable button on add-to-cart submit
+    var addToCartForm = document.getElementById('add-to-cart-form');
+    if (addToCartForm) {
+        addToCartForm.addEventListener('submit', function(e) {
+            document.getElementById('add-to-cart-btn-text').classList.add('opacity-50');
+            document.getElementById('add-to-cart-spinner').classList.remove('hidden');
+            this.querySelector('button[type="submit"]').setAttribute('disabled', 'disabled');
+        });
+    }
+    // Show toast for error messages if Django messages are present
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                window.addEventListener('DOMContentLoaded', function() {
+                    showToast("{{ message|escapejs }}");
+                });
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
 {% endblock %} 

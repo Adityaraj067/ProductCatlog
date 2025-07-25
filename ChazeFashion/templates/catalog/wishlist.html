@@ -38,19 +38,24 @@
                         <div class="rating rating-sm">
                             {% for i in "12345" %}
                                 {% if forloop.counter <= product.pr_reviews %}
-                                    <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" checked disabled />
+                                    <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" checked disabled aria-label="Rated star" />
                                 {% else %}
-                                    <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" disabled />
+                                    <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" disabled aria-label="Unrated star" />
                                 {% endif %}
                             {% endfor %}
                         </div>
                     </div>
                     
                     <div class="card-actions justify-end">
-                        <a href="{% url 'product_detail' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-105">View Details</a>
-                        <a href="{% url 'add_to_cart' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110">
-                            <i class="fas fa-shopping-cart"></i>
-                        </a>
+                        <a href="{% url 'product_detail' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-105 focus:ring-2 focus:ring-emerald-400" aria-label="View details for {{ product.pr_name }}">View Details</a>
+                        <form action="{% url 'add_to_cart' product.pr_id %}" method="post" class="inline-flex items-center space-x-2 add-to-cart-form" aria-label="Add to cart form">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110 focus:ring-2 focus:ring-emerald-400 relative">
+                                <span class="add-to-cart-btn-text"><i class="fas fa-shopping-cart"></i></span>
+                                <span class="add-to-cart-spinner loading loading-spinner loading-xs ambient-accent absolute right-2 top-1/2 -translate-y-1/2 hidden"></span>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -63,11 +68,28 @@
             <p class="ambient-text opacity-70 mb-6">
                 Start adding products to your wishlist to save them for later!
             </p>
-            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105">
-                <i class="fas fa-shopping-bag mr-2"></i>
-                Browse Products
-            </a>
+            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105 focus:ring-2 focus:ring-emerald-400"> <i class="fas fa-shopping-bag mr-2"></i> Browse Products</a>
         </div>
     {% endif %}
 </div>
+<script>
+    // Add loading spinner to all add-to-cart forms
+    document.querySelectorAll('.add-to-cart-form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            this.querySelector('.add-to-cart-btn-text').classList.add('opacity-50');
+            this.querySelector('.add-to-cart-spinner').classList.remove('hidden');
+            this.querySelector('button[type="submit"]').setAttribute('disabled', 'disabled');
+        });
+    });
+    // Show toast for error messages if Django messages are present
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                window.addEventListener('DOMContentLoaded', function() {
+                    showToast("{{ message|escapejs }}");
+                });
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
 {% endblock %} 

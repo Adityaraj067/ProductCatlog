@@ -8,25 +8,28 @@
         <div class="card-body">
             <div class="flex flex-col items-center mb-4">
                 <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80" alt="Login Illustration" class="rounded-full shadow-md h-20 w-20 object-cover mb-2"/>
-                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" background="transparent" speed="1" style="width: 100px; height: 100px;" loop autoplay></lottie-player>
+                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" background="transparent" speed="1" style="width: 100px; height: 100px;" loop autoplay aria-label="Animated login icon"></lottie-player>
             </div>
             <h2 class="card-title text-2xl font-bold text-center mb-6 ambient-accent">Welcome Back</h2>
-            <form method="post" class="space-y-4 animate-fade-in">
+            <form method="post" class="space-y-4 animate-fade-in" aria-label="Login form" id="login-form">
                 {% csrf_token %}
                 <div class="form-control">
-                    <label class="label">
+                    <label class="label" for="id_username">
                         <span class="label-text ambient-text">Username</span>
                     </label>
-                    <input type="text" name="username" placeholder="Enter your username" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required />
+                    <input id="id_username" type="text" name="username" placeholder="Enter your username" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required aria-required="true" autocomplete="username" />
                 </div>
                 <div class="form-control">
-                    <label class="label">
+                    <label class="label" for="id_password">
                         <span class="label-text ambient-text">Password</span>
                     </label>
-                    <input type="password" name="password" placeholder="Enter your password" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required />
+                    <input id="id_password" type="password" name="password" placeholder="Enter your password" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required aria-required="true" autocomplete="current-password" />
                 </div>
                 <div class="form-control mt-6">
-                    <button type="submit" class="btn ambient-btn btn-lg w-full transition-transform duration-200 hover:scale-105">Login</button>
+                    <button type="submit" class="btn ambient-btn btn-lg w-full transition-transform duration-200 hover:scale-105 focus:ring-4 focus:ring-emerald-400 focus:outline-none relative">
+                        <span id="login-btn-text">Login</span>
+                        <span id="login-spinner" class="loading loading-spinner loading-sm ambient-accent absolute right-4 top-1/2 -translate-y-1/2 hidden"></span>
+                    </button>
                 </div>
             </form>
             <div class="divider ambient-accent">OR</div>
@@ -34,9 +37,7 @@
                 <p class="text-sm ambient-text opacity-70 mb-4">
                     Don't have an account?
                 </p>
-                <a href="{% url 'signup' %}" class="btn btn-outline btn-wide ambient-accent transition-transform duration-200 hover:scale-105 hover:border-emerald-500">
-                    Create Account
-                </a>
+                <a href="{% url 'signup' %}" class="btn btn-outline btn-wide ambient-accent transition-transform duration-200 hover:scale-105 hover:border-emerald-500 focus:ring-2 focus:ring-emerald-400">Create Account</a>
             </div>
             <div class="mt-4 text-center text-xs ambient-text opacity-60">
                 <span>🌙 Try dark mode for a new look!</span>
@@ -44,4 +45,22 @@
         </div>
     </div>
 </div>
+<script>
+    // Show spinner and disable button on submit
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+        document.getElementById('login-btn-text').classList.add('opacity-50');
+        document.getElementById('login-spinner').classList.remove('hidden');
+        this.querySelector('button[type="submit"]').setAttribute('disabled', 'disabled');
+    });
+    // Show toast for login errors if Django messages are present
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                window.addEventListener('DOMContentLoaded', function() {
+                    showToast("{{ message|escapejs }}");
+                });
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
 {% endblock %} 

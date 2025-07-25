@@ -20,13 +20,13 @@
                     <div class="flex justify-center mb-4">
                         <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80" alt="Filter Illustration" class="rounded-full shadow-md h-16 w-16 object-cover"/>
                     </div>
-                    <form method="get" class="space-y-4">
+                    <form method="get" class="space-y-4" aria-label="Product filters">
                         <!-- Category Filter -->
                         <div class="form-control">
-                            <label class="label">
+                            <label class="label" for="id_category">
                                 <span class="label-text font-semibold ambient-text">Category</span>
                             </label>
-                            <select name="category" class="select select-bordered w-full">
+                            <select id="id_category" name="category" class="select select-bordered w-full focus:ring-2 focus:ring-emerald-400">
                                 <option value="">All Categories</option>
                                 {% for value, label in categories %}
                                     <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>
@@ -37,10 +37,10 @@
                         </div>
                         <!-- Season Filter -->
                         <div class="form-control">
-                            <label class="label">
+                            <label class="label" for="id_season">
                                 <span class="label-text font-semibold ambient-text">Season</span>
                             </label>
-                            <select name="season" class="select select-bordered w-full">
+                            <select id="id_season" name="season" class="select select-bordered w-full focus:ring-2 focus:ring-emerald-400">
                                 <option value="">All Seasons</option>
                                 {% for value, label in seasons %}
                                     <option value="{{ value }}" {% if request.GET.season == value %}selected{% endif %}>
@@ -51,35 +51,35 @@
                         </div>
                         <!-- Price Range -->
                         <div class="form-control">
-                            <label class="label">
+                            <label class="label" for="id_price_min">
                                 <span class="label-text font-semibold ambient-text">Price Range</span>
                             </label>
                             <div class="flex gap-2">
-                                <input type="number" name="price_min" placeholder="Min" value="{{ request.GET.price_min }}" class="input input-bordered w-full" />
-                                <input type="number" name="price_max" placeholder="Max" value="{{ request.GET.price_max }}" class="input input-bordered w-full" />
+                                <input id="id_price_min" type="number" name="price_min" placeholder="Min" value="{{ request.GET.price_min }}" class="input input-bordered w-full focus:ring-2 focus:ring-emerald-400" />
+                                <input id="id_price_max" type="number" name="price_max" placeholder="Max" value="{{ request.GET.price_max }}" class="input input-bordered w-full focus:ring-2 focus:ring-emerald-400" />
                             </div>
                         </div>
                         <!-- Fabric Filter -->
                         <div class="form-control">
-                            <label class="label">
+                            <label class="label" for="id_fabric">
                                 <span class="label-text font-semibold ambient-text">Fabric</span>
                             </label>
-                            <input type="text" name="fabric" placeholder="e.g., Cotton, Silk" value="{{ request.GET.fabric }}" class="input input-bordered w-full" />
+                            <input id="id_fabric" type="text" name="fabric" placeholder="e.g., Cotton, Silk" value="{{ request.GET.fabric }}" class="input input-bordered w-full focus:ring-2 focus:ring-emerald-400" />
                         </div>
                         <!-- Brand Filter -->
                         <div class="form-control">
-                            <label class="label">
+                            <label class="label" for="id_brand">
                                 <span class="label-text font-semibold ambient-text">Brand</span>
                             </label>
-                            <input type="text" name="brand" placeholder="Search by brand" value="{{ request.GET.brand }}" class="input input-bordered w-full" />
+                            <input id="id_brand" type="text" name="brand" placeholder="Search by brand" value="{{ request.GET.brand }}" class="input input-bordered w-full focus:ring-2 focus:ring-emerald-400" />
                         </div>
                         <!-- Apply Filters Button -->
                         <div class="form-control">
-                            <button type="submit" class="btn ambient-btn transition-transform duration-200 hover:scale-105">Apply Filters</button>
+                            <button type="submit" class="btn ambient-btn transition-transform duration-200 hover:scale-105 focus:ring-2 focus:ring-emerald-400">Apply Filters</button>
                         </div>
                         <!-- Clear Filters -->
                         <div class="form-control">
-                            <a href="{% url 'product_list' %}" class="btn btn-outline ambient-accent transition-transform duration-200 hover:scale-105 hover:border-emerald-500">Clear Filters</a>
+                            <a href="{% url 'product_list' %}" class="btn btn-outline ambient-accent transition-transform duration-200 hover:scale-105 hover:border-emerald-500 focus:ring-2 focus:ring-emerald-400">Clear Filters</a>
                         </div>
                     </form>
                 </div>
@@ -123,24 +123,25 @@
                             <div class="rating rating-sm">
                                 {% for i in "12345" %}
                                     {% if forloop.counter <= product.pr_reviews %}
-                                        <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" checked disabled />
+                                        <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" checked disabled aria-label="Rated star" />
                                     {% else %}
-                                        <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" disabled />
+                                        <input type="radio" name="rating-{{ product.pr_id }}" class="mask mask-star-2 bg-orange-400" disabled aria-label="Unrated star" />
                                     {% endif %}
                                 {% endfor %}
                             </div>
                         </div>
                         <div class="card-actions justify-end">
-                            <a href="{% url 'product_detail' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-105">View Details</a>
+                            <a href="{% url 'product_detail' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-105 focus:ring-2 focus:ring-emerald-400" aria-label="View details for {{ product.pr_name }}">View Details</a>
                             {% if user.is_authenticated %}
-                                <form action="{% url 'add_to_cart' product.pr_id %}" method="post" class="inline-flex items-center space-x-2">
+                                <form action="{% url 'add_to_cart' product.pr_id %}" method="post" class="inline-flex items-center space-x-2 add-to-cart-form" aria-label="Add to cart form">
                                     {% csrf_token %}
-                                    <input type="number" name="quantity" value="1" min="1" class="input input-bordered input-xs w-16" />
-                                    <button type="submit" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110">
-                                        <i class="fas fa-shopping-cart"></i>
+                                    <input type="number" name="quantity" value="1" min="1" class="input input-bordered input-xs w-16 focus:ring-2 focus:ring-emerald-400" aria-label="Quantity" />
+                                    <button type="submit" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110 focus:ring-2 focus:ring-emerald-400 relative">
+                                        <span class="add-to-cart-btn-text"><i class="fas fa-shopping-cart"></i></span>
+                                        <span class="add-to-cart-spinner loading loading-spinner loading-xs ambient-accent absolute right-2 top-1/2 -translate-y-1/2 hidden"></span>
                                     </button>
                                 </form>
-                                <a href="{% url 'add_to_wishlist' product.pr_id %}" class="btn btn-outline btn-sm ambient-accent transition-transform duration-200 hover:scale-110 hover:border-emerald-500">
+                                <a href="{% url 'add_to_wishlist' product.pr_id %}" class="btn btn-outline btn-sm ambient-accent transition-transform duration-200 hover:scale-110 hover:border-emerald-500 focus:ring-2 focus:ring-emerald-400" aria-label="Add {{ product.pr_name }} to wishlist">
                                     <i class="fas fa-heart"></i>
                                 </a>
                             {% endif %}
@@ -154,11 +155,31 @@
                     <p class="ambient-text opacity-70 mb-4">
                         Try adjusting your filters or browse all products.
                     </p>
-                    <a href="{% url 'product_list' %}" class="btn ambient-btn transition-transform duration-200 hover:scale-105">View All Products</a>
+                    <a href="{% url 'product_list' %}" class="btn ambient-btn transition-transform duration-200 hover:scale-105 focus:ring-2 focus:ring-emerald-400">View All Products</a>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </div>
 </div>
+<script>
+    // Add loading spinner to all add-to-cart forms
+    document.querySelectorAll('.add-to-cart-form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            this.querySelector('.add-to-cart-btn-text').classList.add('opacity-50');
+            this.querySelector('.add-to-cart-spinner').classList.remove('hidden');
+            this.querySelector('button[type="submit"]').setAttribute('disabled', 'disabled');
+        });
+    });
+    // Show toast for error messages if Django messages are present
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                window.addEventListener('DOMContentLoaded', function() {
+                    showToast("{{ message|escapejs }}");
+                });
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
 {% endblock %} 

@@ -8,16 +8,16 @@
         <div class="card-body">
             <div class="flex flex-col items-center mb-4">
                 <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=120&q=80" alt="Signup Illustration" class="rounded-full shadow-md h-20 w-20 object-cover mb-2"/>
-                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_ktwnwv5m.json" background="transparent" speed="1" style="width: 100px; height: 100px;" loop autoplay></lottie-player>
+                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_ktwnwv5m.json" background="transparent" speed="1" style="width: 100px; height: 100px;" loop autoplay aria-label="Animated signup icon"></lottie-player>
             </div>
             <h2 class="card-title text-2xl font-bold text-center mb-6 ambient-accent">Create Account</h2>
-            <form method="post" class="space-y-4 animate-fade-in">
+            <form method="post" class="space-y-4 animate-fade-in" aria-label="Signup form" id="signup-form">
                 {% csrf_token %}
                 <div class="form-control">
-                    <label class="label">
+                    <label class="label" for="id_username">
                         <span class="label-text ambient-text">Username</span>
                     </label>
-                    <input type="text" name="username" placeholder="Choose a username" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required />
+                    <input id="id_username" type="text" name="username" placeholder="Choose a username" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required aria-required="true" autocomplete="username" />
                     {% if form.username.errors %}
                         <label class="label">
                             <span class="label-text-alt text-error">{{ form.username.errors.0 }}</span>
@@ -25,10 +25,10 @@
                     {% endif %}
                 </div>
                 <div class="form-control">
-                    <label class="label">
+                    <label class="label" for="id_password1">
                         <span class="label-text ambient-text">Password</span>
                     </label>
-                    <input type="password" name="password1" placeholder="Enter your password" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required />
+                    <input id="id_password1" type="password" name="password1" placeholder="Enter your password" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required aria-required="true" autocomplete="new-password" />
                     {% if form.password1.errors %}
                         <label class="label">
                             <span class="label-text-alt text-error">{{ form.password1.errors.0 }}</span>
@@ -36,10 +36,10 @@
                     {% endif %}
                 </div>
                 <div class="form-control">
-                    <label class="label">
+                    <label class="label" for="id_password2">
                         <span class="label-text ambient-text">Confirm Password</span>
                     </label>
-                    <input type="password" name="password2" placeholder="Confirm your password" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required />
+                    <input id="id_password2" type="password" name="password2" placeholder="Confirm your password" class="input input-bordered transition-all duration-300 focus:ring-2 focus:ring-emerald-400 bg-[#232946] ambient-text" required aria-required="true" autocomplete="new-password" />
                     {% if form.password2.errors %}
                         <label class="label">
                             <span class="label-text-alt text-error">{{ form.password2.errors.0 }}</span>
@@ -47,7 +47,10 @@
                     {% endif %}
                 </div>
                 <div class="form-control mt-6">
-                    <button type="submit" class="btn ambient-btn btn-lg w-full transition-transform duration-200 hover:scale-105">Create Account</button>
+                    <button type="submit" class="btn ambient-btn btn-lg w-full transition-transform duration-200 hover:scale-105 focus:ring-4 focus:ring-emerald-400 focus:outline-none relative">
+                        <span id="signup-btn-text">Create Account</span>
+                        <span id="signup-spinner" class="loading loading-spinner loading-sm ambient-accent absolute right-4 top-1/2 -translate-y-1/2 hidden"></span>
+                    </button>
                 </div>
             </form>
             <div class="divider ambient-accent">OR</div>
@@ -55,9 +58,7 @@
                 <p class="text-sm ambient-text opacity-70 mb-4">
                     Already have an account?
                 </p>
-                <a href="{% url 'login' %}" class="btn btn-outline btn-wide ambient-accent transition-transform duration-200 hover:scale-105 hover:border-emerald-500">
-                    Login
-                </a>
+                <a href="{% url 'login' %}" class="btn btn-outline btn-wide ambient-accent transition-transform duration-200 hover:scale-105 hover:border-emerald-500 focus:ring-2 focus:ring-emerald-400">Login</a>
             </div>
             <div class="mt-4 text-center text-xs ambient-text opacity-60">
                 <span>🌙 Try dark mode for a new look!</span>
@@ -65,4 +66,22 @@
         </div>
     </div>
 </div>
+<script>
+    // Show spinner and disable button on submit
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+        document.getElementById('signup-btn-text').classList.add('opacity-50');
+        document.getElementById('signup-spinner').classList.remove('hidden');
+        this.querySelector('button[type="submit"]').setAttribute('disabled', 'disabled');
+    });
+    // Show toast for signup errors if Django messages are present
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                window.addEventListener('DOMContentLoaded', function() {
+                    showToast("{{ message|escapejs }}");
+                });
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
 {% endblock %} 

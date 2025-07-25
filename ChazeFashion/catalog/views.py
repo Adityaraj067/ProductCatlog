@@ -20,12 +20,13 @@ def get_cart_item_count(user):
 def home(request):
     """Home/Landing page"""
     products = Product.objects.all()[:8]  # Show first 8 products
+    # Add image URLs for each category (relative to MEDIA_URL)
     home_categories = [
-        ("Men", "Men"),
-        ("Women", "Women"),
-        ("Boys", "Boys"),
-        ("Girls", "Girls"),
-        ("Toddler", "Toddler"),
+        ("Men", "Men", f"{request.build_absolute_uri('/media/category_images/men.jpg')}",),
+        ("Women", "Women", f"{request.build_absolute_uri('/media/category_images/women.jpg')}",),
+        ("Boys", "Boys", f"{request.build_absolute_uri('/media/category_images/boys.jpg')}",),
+        ("Girls", "Girls", f"{request.build_absolute_uri('/media/category_images/girls.jpg')}",),
+        ("Kids", "Kids", f"{request.build_absolute_uri('/media/category_images/kids.jpg')}",),
     ]
     context = {
         'products': products,

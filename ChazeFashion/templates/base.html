@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}ChazeFashion - Your Style, Your Way{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" defer></script>
     <style>
         body {
-            /* Ambient dark gradient background */
             background: linear-gradient(135deg, #181c2f 0%, #232946 100%);
         }
         .glass-card {
@@ -38,65 +37,80 @@
             color: #181c2f;
             border: none;
         }
-        .ambient-btn:hover {
+        .ambient-btn:hover, .ambient-btn:focus {
             background: linear-gradient(90deg, #3a8dde 0%, #4fffb0 100%);
             color: #fff;
+            outline: 2px solid #4fffb0;
+            outline-offset: 2px;
+        }
+        nav a:focus, nav a:active, nav a:hover,
+        footer a:focus, footer a:active, footer a:hover {
+            outline: 2px solid #4fffb0;
+            outline-offset: 2px;
+            color: #4fffb0 !important;
+            background: rgba(80,255,200,0.08);
+            text-decoration: underline;
         }
     </style>
 </head>
 <body class="min-h-screen transition-colors duration-700 ease-in-out ambient-text">
     <!-- Decorative Animated Banner -->
     <div class="w-full flex justify-center items-center py-2 bg-gradient-to-r from-emerald-900 via-emerald-700 to-blue-900 animate-fade-in" data-aos="fade-down">
-        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_4kx2q32n.json" background="transparent" speed="1" style="width: 60px; height: 60px; margin-right: 1rem;" loop autoplay></lottie-player>
+        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_4kx2q32n.json" background="transparent" speed="1" style="width: 60px; height: 60px; margin-right: 1rem;" loop autoplay aria-label="Welcome animation"></lottie-player>
         <span class="text-lg font-semibold ambient-accent">Welcome to ChazeFashion! Enjoy exclusive deals and new arrivals every week.</span>
     </div>
     <!-- Navigation Bar -->
-    <div class="navbar glass-card ambient-border shadow-lg transition-all duration-500 ease-in-out hover:shadow-2xl sticky top-0 z-50 animate-fade-in" data-aos="fade-down">
+    <nav class="navbar glass-card ambient-border shadow-lg transition-all duration-500 ease-in-out hover:shadow-2xl sticky top-0 z-50 animate-fade-in" data-aos="fade-down" aria-label="Main navigation">
         <div class="navbar-start">
             <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden ambient-btn">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden ambient-btn" aria-label="Open menu">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
                     </svg>
                 </div>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 glass-card ambient-border rounded-box w-52">
-                    <li><a href="{% url 'home' %}" class="ambient-text">Home</a></li>
-                    <li><a href="{% url 'product_list' %}" class="ambient-text">Products</a></li>
+                    <li><a href="{% url 'home' %}" class="ambient-text" tabindex="0">Home</a></li>
+                    <li><a href="{% url 'product_list' %}" class="ambient-text" tabindex="0">Products</a></li>
+                    <li><a href="{% url 'wishlist' %}" class="ambient-text" tabindex="0">Wishlist</a></li>
+                    <li><a href="{% url 'cart' %}" class="ambient-text" tabindex="0">Cart</a></li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'wishlist' %}" class="ambient-text">Wishlist</a></li>
-                        <li><a href="{% url 'profile' %}" class="ambient-text">Profile</a></li>
+                        <li><a href="{% url 'profile' %}" class="ambient-text" tabindex="0">Profile</a></li>
                     {% endif %}
                 </ul>
             </div>
-            <a href="{% url 'home' %}" class="btn btn-ghost text-xl transition-transform duration-300 hover:scale-105 ambient-accent">
+            <a href="{% url 'home' %}" class="btn btn-ghost text-xl transition-transform duration-300 hover:scale-105 ambient-accent" aria-label="ChazeFashion Home">
                 <i class="fas fa-tshirt"></i>
                 ChazeFashion
             </a>
         </div>
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal px-1">
-                <li><a href="{% url 'home' %}" class="ambient-text">Home</a></li>
-                <li><a href="{% url 'product_list' %}" class="ambient-text">Products</a></li>
+                <li><a href="{% url 'home' %}" class="ambient-text" tabindex="0">Home</a></li>
+                <li><a href="{% url 'product_list' %}" class="ambient-text" tabindex="0">Products</a></li>
+                <li><a href="{% url 'wishlist' %}" class="ambient-text" tabindex="0">Wishlist</a></li>
+                <li><a href="{% url 'cart' %}" class="ambient-text" tabindex="0">Cart</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'wishlist' %}" class="ambient-text">Wishlist</a></li>
-                    <li><a href="{% url 'profile' %}" class="ambient-text">Profile</a></li>
+                    <li><a href="{% url 'profile' %}" class="ambient-text" tabindex="0">Profile</a></li>
                 {% endif %}
             </ul>
         </div>
         <div class="navbar-end">
             <!-- Dark mode toggle prominent -->
             <label class="swap swap-rotate mr-2">
-                <input type="checkbox" class="theme-controller" value="dark" checked/>
+                <input type="checkbox" class="theme-controller" value="dark" checked aria-label="Toggle dark mode"/>
                 <svg class="swap-on fill-current w-8 h-8 ambient-accent" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64 17.657A9 9 0 1 0 12 3v0a7 7 0 0 1-6.36 14.657z"></path></svg>
                 <svg class="swap-off fill-current w-8 h-8 ambient-accent" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64 13.657A9 9 0 1 1 12 3v0a7 7 0 0 0 9.64 10.657z"></path></svg>
             </label>
+            <a href="{% url 'cart' %}" class="btn btn-ghost btn-circle mr-2 relative ambient-btn transition-transform duration-300 hover:scale-110 hover:bg-emerald-100" aria-label="View cart">
+                <i class="fas fa-shopping-cart text-2xl"></i>
+                <span class="badge badge-sm badge-primary absolute -top-2 -right-2">{{ cart_item_count|default:0 }}</span>
+            </a>
+            <a href="{% url 'wishlist' %}" class="btn btn-ghost btn-circle mr-2 relative ambient-btn transition-transform duration-300 hover:scale-110 hover:bg-pink-100" aria-label="View wishlist">
+                <i class="fas fa-heart text-2xl"></i>
+            </a>
             {% if user.is_authenticated %}
-                <a href="{% url 'cart' %}" class="btn btn-ghost btn-circle mr-2 relative ambient-btn transition-transform duration-300 hover:scale-110 hover:bg-emerald-100">
-                    <i class="fas fa-shopping-cart text-2xl"></i>
-                    <span class="badge badge-sm badge-primary absolute -top-2 -right-2">{{ cart_item_count|default:0 }}</span>
-                </a>
                 <div class="dropdown dropdown-end">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar" aria-label="Open profile menu">
                         <div class="w-10 rounded-full">
                             {% if user.userprofile.avatar %}
                                 <img src="{{ user.userprofile.avatar.url }}" alt="{{ user.username }}" />
@@ -108,17 +122,17 @@
                         </div>
                     </div>
                     <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 glass-card ambient-border rounded-box w-52">
-                        <li><a href="{% url 'profile' %}" class="ambient-text">Profile</a></li>
-                        <li><a href="{% url 'wishlist' %}" class="ambient-text">Wishlist</a></li>
-                        <li><a href="{% url 'logout' %}" class="ambient-text">Logout</a></li>
+                        <li><a href="{% url 'profile' %}" class="ambient-text" tabindex="0">Profile</a></li>
+                        <li><a href="{% url 'wishlist' %}" class="ambient-text" tabindex="0">Wishlist</a></li>
+                        <li><a href="{% url 'logout' %}" class="ambient-text" tabindex="0">Logout</a></li>
                     </ul>
                 </div>
             {% else %}
-                <a href="{% url 'login' %}" class="btn ambient-btn transition-all duration-300 hover:scale-105">Login</a>
-                <a href="{% url 'signup' %}" class="btn btn-outline ml-2 ambient-accent border-emerald-400 transition-all duration-300 hover:scale-105 hover:border-emerald-500">Sign Up</a>
+                <a href="{% url 'login' %}" class="btn ambient-btn transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-emerald-400" aria-label="Login">Login</a>
+                <a href="{% url 'signup' %}" class="btn btn-outline ml-2 ambient-accent border-emerald-400 transition-all duration-300 hover:scale-105 hover:border-emerald-500 focus:ring-2 focus:ring-emerald-400" aria-label="Sign Up">Sign Up</a>
             {% endif %}
         </div>
-    </div>
+    </nav>
     <!-- Messages -->
     {% if messages %}
         <div class="container mx-auto px-4 mt-4">
@@ -139,52 +153,52 @@
         </div>
     {% endif %}
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8 glass-card ambient-border shadow-xl rounded-xl animate-fade-in" data-aos="fade-up">
+    <main class="container mx-auto px-4 py-8 glass-card ambient-border shadow-xl rounded-xl animate-fade-in" data-aos="fade-up" aria-label="Main content">
         {% block content %}
         {% endblock %}
     </main>
     <!-- Footer -->
-    <footer class="footer footer-center p-10 bg-gradient-to-r from-emerald-900 via-emerald-700 to-blue-900 ambient-text rounded shadow-lg transition-all duration-500 hover:shadow-2xl mt-12 animate-fade-in" data-aos="fade-up">
+    <footer class="footer footer-center p-10 bg-gradient-to-r from-emerald-900 via-emerald-700 to-blue-900 ambient-text rounded shadow-lg transition-all duration-500 hover:shadow-2xl mt-12 animate-fade-in" data-aos="fade-up" aria-label="Footer">
         <nav class="grid grid-flow-col gap-4">
-            <a href="{% url 'home' %}" class="link link-hover ambient-accent hover:text-white hover:underline">Home</a>
-            <a href="{% url 'product_list' %}" class="link link-hover ambient-accent hover:text-white hover:underline">Products</a>
+            <a href="{% url 'home' %}" class="link link-hover ambient-accent hover:text-white hover:underline" tabindex="0">Home</a>
+            <a href="{% url 'product_list' %}" class="link link-hover ambient-accent hover:text-white hover:underline" tabindex="0">Products</a>
             {% if user.is_authenticated %}
-                <a href="{% url 'wishlist' %}" class="link link-hover ambient-accent hover:text-white hover:underline">Wishlist</a>
-                <a href="{% url 'profile' %}" class="link link-hover ambient-accent hover:text-white hover:underline">Profile</a>
+                <a href="{% url 'wishlist' %}" class="link link-hover ambient-accent hover:text-white hover:underline" tabindex="0">Wishlist</a>
+                <a href="{% url 'profile' %}" class="link link-hover ambient-accent hover:text-white hover:underline" tabindex="0">Profile</a>
             {% else %}
-                <a href="{% url 'login' %}" class="link link-hover ambient-accent hover:text-white hover:underline">Login</a>
-                <a href="{% url 'signup' %}" class="link link-hover ambient-accent hover:text-white hover:underline">Sign Up</a>
+                <a href="{% url 'login' %}" class="link link-hover ambient-accent hover:text-white hover:underline" tabindex="0">Login</a>
+                <a href="{% url 'signup' %}" class="link link-hover ambient-accent hover:text-white hover:underline" tabindex="0">Sign Up</a>
             {% endif %}
         </nav>
         <nav>
             <div class="grid grid-flow-col gap-4">
-                <a href="#"><i class="fab fa-twitter text-xl ambient-accent hover:text-white transition-transform duration-300 hover:scale-125"></i></a>
-                <a href="#"><i class="fab fa-instagram text-xl ambient-accent hover:text-white transition-transform duration-300 hover:scale-125"></i></a>
-                <a href="#"><i class="fab fa-facebook text-xl ambient-accent hover:text-white transition-transform duration-300 hover:scale-125"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter text-xl ambient-accent hover:text-white transition-transform duration-300 hover:scale-125"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram text-xl ambient-accent hover:text-white transition-transform duration-300 hover:scale-125"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook text-xl ambient-accent hover:text-white transition-transform duration-300 hover:scale-125"></i></a>
             </div>
         </nav>
         <aside>
             <p>Copyright © 2024 - All rights reserved by ChazeFashion</p>
-            <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_4kx2q32n.json" background="transparent" speed="1" style="width: 60px; height: 60px; margin: 0 auto;" loop autoplay></lottie-player>
+            <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_4kx2q32n.json" background="transparent" speed="1" style="width: 60px; height: 60px; margin: 0 auto;" loop autoplay aria-label="Footer animation"></lottie-player>
         </aside>
     </footer>
     <!-- Floating Cart Button -->
-    <a href="{% url 'cart' %}" class="fixed bottom-6 right-6 z-50 btn ambient-btn btn-circle shadow-lg animate-bounce animate-fade-in transition-transform duration-300 hover:scale-110 hover:ring-4 hover:ring-emerald-200">
+    <a href="{% url 'cart' %}" class="fixed bottom-6 right-6 z-50 btn ambient-btn btn-circle shadow-lg animate-bounce animate-fade-in transition-transform duration-300 hover:scale-110 hover:ring-4 hover:ring-emerald-200" aria-label="Floating cart">
         <i class="fas fa-shopping-cart text-2xl"></i>
         <span class="badge badge-sm badge-primary absolute -top-2 -right-2">{{ cart_item_count|default:0 }}</span>
     </a>
     <!-- Toast Container (global feedback) -->
-    <div x-data="{toasts: []}" x-init="window.addEventListener('show-toast', e => {toasts.push(e.detail); setTimeout(()=>toasts.shift(), 3000)})" class="fixed top-6 right-6 z-50 space-y-2">
+    <div x-data="{toasts: []}" x-init="window.addEventListener('show-toast', e => {toasts.push(e.detail); setTimeout(()=>toasts.shift(), 3000)})" class="fixed top-6 right-6 z-50 space-y-2" aria-live="polite" aria-atomic="true">
         <template x-for="toast in toasts" :key="toast">
             <div class="alert alert-success glass-card ambient-border shadow-lg animate-fade-in" x-text="toast"></div>
         </template>
     </div>
     <!-- Loading Spinner Overlay -->
-    <div id="spinner-overlay" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div id="spinner-overlay" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden" aria-label="Loading spinner">
         <span class="loading loading-spinner loading-lg ambient-accent"></span>
     </div>
     <!-- Lottie Modal (global) -->
-    <div id="lottie-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
+    <div id="lottie-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden" aria-label="Lottie modal">
         <div class="glass-card ambient-border shadow-lg p-8 flex flex-col items-center">
             <lottie-player id="lottie-player" src="" background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay></lottie-player>
             <div id="lottie-modal-message" class="mt-4 text-lg font-semibold"></div>
@@ -205,6 +219,17 @@
             document.getElementById('lottie-modal-message').innerText = message;
             document.getElementById('lottie-modal').classList.remove('hidden');
         };
+        // Dark mode toggle for CDN DaisyUI
+        const themeToggle = document.querySelector('.theme-controller');
+        if (themeToggle) {
+            themeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            });
+        }
     </script>
 </body>
 </html> 
