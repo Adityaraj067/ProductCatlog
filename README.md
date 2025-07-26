@@ -1,95 +1,143 @@
-# ChazeFashion - Django E-Commerce Platform
+🛍️ ChazeFashion - Django E-Commerce Platform
+ChazeFashion is a modern, full-featured e-commerce web application built with Django. It combines a sleek, responsive UI with powerful backend features like user authentication, cart/wishlist handling, and a customizable admin interface — all with dark mode support!
+<br>
 
-ChazeFashion is a modern, full-featured e-commerce web application built with Django. It features a beautiful UI, user authentication, product catalog, cart, wishlist, profile management, and dark mode support.
+🚀 Live Demo:
+🔗 https://productcatlog-2-nqre.onrender.com
 
-## Features
-- User registration, login, and profile management
-- Product catalog with categories, filtering, and search
-- Product detail pages with reviews
-- Add to cart and wishlist (with authentication)
-- Responsive, modern UI with Tailwind CSS, DaisyUI, and Lottie animations
-- Dark mode toggle
-- Admin panel for product/user management
+✨ Features
+👤 User Registration, Login & Profile Management
 
-## Project Structure
-```
+🛒 Product Catalog with Categories, Filtering & Search
+
+⭐ Product Detail Pages with Customer Reviews
+
+❤️ Add to Cart & Wishlist (Authenticated Users Only)
+
+💡 Dark Mode Toggle for Better Accessibility
+
+🎨 Beautiful, Responsive UI with Tailwind CSS, DaisyUI & Lottie Animations
+
+🛠️ Admin Panel for Managing Products & Users
+
+🗂️ Project Structure
+Copy
+Edit
 ProductCatlog-master/
-  ChazeFashion/
-    manage.py
-    ChazeFashion/
-      settings.py
-      wsgi.py
-      ...
-    catalog/
-      models.py
-      views.py
-      templates/
-      ...
-  requirements.txt
-```
+├── ChazeFashion/
+│   ├── manage.py
+│   ├── ChazeFashion/
+│   │   ├── settings.py
+│   │   ├── wsgi.py
+│   │   └── ...
+│   └── catalog/
+│       ├── models.py
+│       ├── views.py
+│       ├── templates/
+│       └── ...
+├── requirements.txt
+🛠️ Local Development Setup
+Clone the repository
 
-## Local Development Setup
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/Adityaraj067/ProductCatlog.git
-   cd ProductCatlog-master/ChazeFashion
-   ```
-2. **Create a virtual environment and activate it:**
-   ```sh
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. **Install dependencies:**
-   ```sh
-   pip install -r requirements.txt
-   ```
-4. **Apply migrations:**
-   ```sh
-   python manage.py migrate
-   ```
-5. **Create a superuser (optional):**
-   ```sh
-   python manage.py createsuperuser
-   ```
-6. **Run the development server:**
-   ```sh
-   python manage.py runserver
-   ```
-7. **Visit:**
-   - Home: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-   - Admin: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
+bash
+Copy
+Edit
+git clone https://github.com/Adityaraj067/ProductCatlog.git
+cd ProductCatlog-master/ChazeFashion
+Create and activate a virtual environment
 
-## Deployment on Render
-1. **Push your code to GitHub.**
-2. **Create a new Web Service on [Render](https://render.com/):**
-   - Set **Root Directory** to `ChazeFashion`
-   - **Build Command:**
-     ```
-     pip install -r requirements.txt && python manage.py collectstatic --noinput
-     ```
-   - **Start Command:**
-     ```
-     gunicorn ChazeFashion.wsgi:application
-     ```
-   - **Environment Variables:**
-     - `DJANGO_SECRET_KEY` (your secret key)
-     - `DEBUG=False`
-     - `ALLOWED_HOSTS=your-app.onrender.com`
-     - `DATABASE_URL` (if using Postgres)
-3. **After first deploy, run migrations in the Render shell:**
-   ```sh
-   python manage.py migrate
-   ```
-4. **(Optional) Create a superuser:**
-   ```sh
-   python manage.py createsuperuser
-   ```
+bash
+Copy
+Edit
+python -m venv venv
+source venv/bin/activate          # On Windows: venv\Scripts\activate
+Install dependencies
 
-## Notes
-- Static files are served from `/static/` after `collectstatic`.
-- Media files are stored in `/media/` (configure storage for production).
-- For production, set `DEBUG=False` and use a secure `DJANGO_SECRET_KEY`.
-- For best results, use Postgres on Render (not SQLite).
+bash
+Copy
+Edit
+pip install -r requirements.txt
+Apply migrations
 
-## License
-This project is for educational/demo purposes. For production use, review and update security, payments, and deployment settings. 
+bash
+Copy
+Edit
+python manage.py migrate
+Create a superuser (optional)
+
+bash
+Copy
+Edit
+python manage.py createsuperuser
+Run the development server
+
+bash
+Copy
+Edit
+python manage.py runserver
+Access the application
+
+🏠 Home: http://127.0.0.1:8000/
+
+🔐 Admin: http://127.0.0.1:8000/admin/
+
+🌐 Deployment on Render
+Push your code to GitHub
+
+Create a Web Service on Render:
+
+Root Directory: ChazeFashion
+
+Build Command:
+
+bash
+Copy
+Edit
+pip install -r requirements.txt && python manage.py collectstatic --noinput
+Start Command:
+
+bash
+Copy
+Edit
+gunicorn ChazeFashion.wsgi:application
+Environment Variables:
+
+ini
+Copy
+Edit
+DJANGO_SECRET_KEY=your-secret-key
+DEBUG=False
+ALLOWED_HOSTS=your-app-name.onrender.com
+DATABASE_URL=your-database-url (PostgreSQL recommended)
+Post-deploy: Run migrations from Render shell
+
+bash
+Copy
+Edit
+python manage.py migrate
+(Optional) Create a superuser
+
+bash
+Copy
+Edit
+python manage.py createsuperuser
+📁 Static & Media Files
+Static files served from: /static/
+
+Media uploads served from: /media/ (configure storage for production use)
+
+🔐 Production Tips
+Set DEBUG = False in settings.py
+
+Use a secure and secret DJANGO_SECRET_KEY
+
+Switch to PostgreSQL for production
+
+Implement SSL/HTTPS, CSRF protection, and proper CORS settings
+
+📸 Screenshots
+Add screenshots here of homepage, product detail page, cart, dark mode, etc.
+
+📜 License
+This project is intended for educational/demo purposes. For real-world deployment, enhance the app’s security, payment integration, and hosting setup.
+
