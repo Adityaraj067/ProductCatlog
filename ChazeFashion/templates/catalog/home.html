@@ -3,61 +3,65 @@
 {% block title %}ChazeFashion - Home{% endblock %}
 
 {% block content %}
+<!-- Offer Banner -->
+<div class="w-full bg-[#ff3f6c] text-white text-center py-3 font-bold text-lg tracking-wide shadow-md mb-4 animate-fade-in">
+    <span>🔥 Big Fashion Sale! Up to 70% OFF + Free Shipping on orders above $50! 🔥</span>
+</div>
+
 <!-- Hero Section -->
-<div class="hero min-h-[60vh] bg-gradient-to-r from-[#181c2f] to-[#232946] relative overflow-hidden" data-aos="fade-down" aria-label="Hero section">
-    <div class="absolute inset-0 bg-gradient-to-br from-emerald-900/60 to-blue-900/80 pointer-events-none"></div>
-    <div class="hero-content text-center text-neutral-content relative z-10">
-        <div class="max-w-md glass-card ambient-border p-8" data-aos="zoom-in">
-            <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_3rwasyjy.json" background="transparent" speed="1" style="width: 180px; height: 180px; margin: 0 auto 1.5rem auto;" loop autoplay aria-label="Fashion animation"></lottie-player>
-            <h1 class="mb-5 text-5xl font-extrabold ambient-accent animate-fade-in">Welcome to <span class="text-white">ChazeFashion</span></h1>
-            <p class="mb-5 text-lg animate-fade-in ambient-text" data-aos="fade-up">Discover the latest trends in fashion. From casual wear to formal attire, we have everything you need to express your unique style.</p>
-            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg shadow-lg transition-transform duration-300 hover:scale-105 animate-bounce focus:ring-4 focus:ring-emerald-400 focus:outline-none" aria-label="Shop now">Shop Now</a>
-            <div class="mt-6 flex justify-center">
-                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_ktwnwv5m.json" background="transparent" speed="1" style="width: 80px; height: 80px;" loop autoplay aria-label="Shop now animation"></lottie-player>
-            </div>
-        </div>
+<div class="hero min-h-[50vh] bg-white custom-dark-theme:bg-[#232946] flex flex-col md:flex-row items-center justify-between px-8 py-12 rounded-xl shadow-lg mb-10 animate-fade-in" style="background: linear-gradient(90deg, #fff 60%, #ffe3ec 100%);">
+    <div class="flex-1 flex flex-col items-start justify-center">
+        <h1 class="text-5xl font-extrabold mb-4 text-[#282c3f] custom-dark-theme:text-white">Welcome to <span class="text-[#ff3f6c]">ChazeFashion</span></h1>
+        <p class="text-lg mb-6 text-[#555] custom-dark-theme:text-[#e0eaff]">Discover the latest trends in fashion. From casual wear to formal attire, we have everything you need to express your unique style.</p>
+        <form action="{% url 'product_list' %}" method="get" class="w-full max-w-md flex mb-4">
+            <input type="text" name="search" placeholder="Search for products, brands and more" class="flex-1 px-4 py-2 rounded-l border border-[#ff3f6c] focus:outline-none focus:ring-2 focus:ring-[#ff3f6c]" />
+            <button type="submit" class="px-6 py-2 bg-[#ff3f6c] text-white font-bold rounded-r hover:bg-[#e62e5c] transition">Search</button>
+        </form>
+        <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg shadow-lg mt-2">Shop Now</a>
+    </div>
+    <div class="flex-1 flex items-center justify-center">
+        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_3rwasyjy.json" background="transparent" speed="1" style="width: 260px; height: 260px;" loop autoplay aria-label="Fashion animation"></lottie-player>
     </div>
 </div>
 
 <!-- Categories Section -->
-<div class="py-16 bg-gradient-to-br from-[#232946] to-[#181c2f]">
+<div class="py-10 bg-[#f5f5f6] custom-dark-theme:bg-[#181c2f]">
     <div class="container mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12 ambient-accent animate-fade-in">Shop by Category</h2>
-        <!-- Centered Horizontal Categories -->
-        <div class="flex flex-row gap-8 overflow-x-auto pb-4 px-2 scrollbar-thin scrollbar-thumb-emerald-700 scrollbar-track-transparent w-full justify-center" aria-label="Category row">
-                {% for cat, label, img_url in home_categories %}
-            <a href="{% url 'product_list' %}?category={{ cat }}" class="flex flex-col items-center min-w-[8rem] focus:ring-2 focus:ring-emerald-400 transition-transform duration-200 hover:scale-105" aria-label="Category: {{ label }}">
-                <div class="w-32 h-32 flex items-center justify-center text-6xl font-bold shadow-lg bg-emerald-700 text-white" style="border-radius:0;">
-                            {% if cat == 'Men' %}👨{% elif cat == 'Women' %}👩{% elif cat == 'Boys' %}👦{% elif cat == 'Girls' %}👧{% else %}👶{% endif %}
-                        </div>
-                    <span class="mt-4 text-lg font-bold ambient-accent">{{ label }}</span>
-                </a>
-                {% endfor %}
-            </div>
+        <h2 class="text-3xl font-bold text-center mb-10 text-[#282c3f] custom-dark-theme:text-[#ff3f6c]">Shop by Category</h2>
+        <div class="flex flex-row gap-8 overflow-x-auto pb-4 px-2 w-full justify-center">
+            {% for cat, label, img_url in home_categories %}
+            <a href="{% url 'product_list' %}?category={{ cat }}" class="flex flex-col items-center min-w-[8rem] bg-white custom-dark-theme:bg-[#232946] rounded-lg shadow-md p-4 border-2 border-transparent hover:border-[#ff3f6c] transition-transform duration-200 hover:scale-105" aria-label="Category: {{ label }}">
+                <div class="w-20 h-20 flex items-center justify-center text-5xl font-bold mb-2" style="background: linear-gradient(135deg, #ffb6c1 0%, #ff3f6c 100%); border-radius: 50%; color: #fff;">
+                    {% if cat == 'Men' %}👨{% elif cat == 'Women' %}👩{% elif cat == 'Boys' %}👦{% elif cat == 'Girls' %}👧{% else %}👶{% endif %}
+                </div>
+                <span class="mt-2 text-base font-semibold text-[#282c3f] custom-dark-theme:text-[#ff3f6c]">{{ label }}</span>
+            </a>
+            {% endfor %}
+        </div>
     </div>
 </div>
 
 <!-- Featured Products Section -->
-<div class="py-16 bg-gradient-to-br from-[#181c2f] to-[#232946]">
+<div class="py-14 bg-white custom-dark-theme:bg-[#232946]">
     <div class="container mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12 ambient-accent animate-fade-in">Featured Products</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
+        <h2 class="text-3xl font-bold text-center mb-10 text-[#282c3f] custom-dark-theme:text-[#ff3f6c]">Featured Products</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {% for product in products %}
-            <div class="card glass-card ambient-border shadow-xl hover:shadow-emerald-300 hover:scale-105 transition-all duration-300" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+            <div class="bg-[#fff] custom-dark-theme:bg-[#181c2f] rounded-xl shadow-lg border border-[#f5f5f6] custom-dark-theme:border-[#232946] hover:shadow-2xl hover:border-[#ff3f6c] transition-all duration-300 flex flex-col" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:1 }}00">
                 <figure class="px-4 pt-4">
                     {% if product.pr_images %}
                         <img src="{{ product.pr_images.url }}" alt="{{ product.pr_name }}" class="rounded-xl h-48 w-full object-cover transition-transform duration-300 hover:scale-110" />
                     {% else %}
-                        <div class="bg-base-300 rounded-xl h-48 w-full flex items-center justify-center">
-                            <i class="fas fa-tshirt text-6xl ambient-accent opacity-50"></i>
+                        <div class="bg-[#f5f5f6] custom-dark-theme:bg-[#232946] rounded-xl h-48 w-full flex items-center justify-center">
+                            <i class="fas fa-tshirt text-6xl text-[#ff3f6c] opacity-50"></i>
                         </div>
                     {% endif %}
                 </figure>
-                <div class="card-body">
-                    <h2 class="card-title ambient-accent">{{ product.pr_name }}</h2>
-                    <p class="text-sm ambient-text opacity-70"><span class="badge ambient-btn animate-pulse">{{ product.pr_cate }}</span></p>
-                    <div class="flex items-center justify-between">
-                        <div class="text-2xl font-bold ambient-accent">${{ product.pr_price }}</div>
+                <div class="p-4 flex-1 flex flex-col justify-between">
+                    <h2 class="text-lg font-bold text-[#282c3f] custom-dark-theme:text-[#ff3f6c] mb-1">{{ product.pr_name }}</h2>
+                    <p class="text-xs text-[#555] custom-dark-theme:text-[#e0eaff] mb-2"><span class="inline-block bg-[#ff3f6c] text-white px-2 py-1 rounded text-xs font-semibold">{{ product.pr_cate }}</span></p>
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-xl font-bold text-[#ff3f6c]">${{ product.pr_price }}</div>
                         <div class="rating rating-sm">
                             {% for i in "12345" %}
                                 {% if forloop.counter <= product.pr_reviews %}
@@ -68,10 +72,10 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="card-actions justify-end">
-                        <a href="{% url 'product_detail' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-105 focus:ring-2 focus:ring-emerald-400" aria-label="View details for {{ product.pr_name }}">View Details</a>
+                    <div class="flex gap-2 mt-auto">
+                        <a href="{% url 'product_detail' product.pr_id %}" class="btn btn-outline btn-sm border-[#ff3f6c] text-[#ff3f6c] hover:bg-[#ff3f6c] hover:text-white transition">View Details</a>
                         {% if user.is_authenticated %}
-                            <a href="{% url 'add_to_cart' product.pr_id %}" class="btn ambient-btn btn-sm transition-transform duration-200 hover:scale-110 focus:ring-2 focus:ring-emerald-400" aria-label="Add {{ product.pr_name }} to cart">
+                            <a href="{% url 'add_to_cart' product.pr_id %}" class="btn btn-outline btn-sm border-[#ff3f6c] text-[#ff3f6c] hover:bg-[#ff3f6c] hover:text-white transition">
                                 <i class="fas fa-shopping-cart"></i>
                             </a>
                         {% endif %}
@@ -80,45 +84,45 @@
             </div>
             {% empty %}
             <div class="col-span-full text-center py-12 animate-fade-in">
-                <div class="text-6xl mb-4 ambient-accent">👕</div>
-                <h3 class="text-xl font-semibold mb-2 ambient-accent">No products available</h3>
-                <p class="ambient-text opacity-70">Check back soon for new arrivals!</p>
+                <div class="text-6xl mb-4 text-[#ff3f6c]">👕</div>
+                <h3 class="text-xl font-semibold mb-2 text-[#ff3f6c]">No products available</h3>
+                <p class="text-[#555] custom-dark-theme:text-[#e0eaff]">Check back soon for new arrivals!</p>
             </div>
             {% endfor %}
         </div>
         {% if products %}
         <div class="text-center mt-8">
-            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105 focus:ring-4 focus:ring-emerald-400 focus:outline-none" aria-label="View all products">View All Products</a>
+            <a href="{% url 'product_list' %}" class="btn ambient-btn btn-lg transition-transform duration-200 hover:scale-105 focus:ring-4 focus:ring-[#ff3f6c] focus:outline-none">View All Products</a>
         </div>
         {% endif %}
     </div>
 </div>
 
 <!-- Features Section -->
-<div class="py-16 bg-gradient-to-br from-[#232946] to-[#181c2f]" data-aos="fade-up">
+<div class="py-14 bg-[#f5f5f6] custom-dark-theme:bg-[#181c2f]">
     <div class="container mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12 ambient-accent animate-fade-in">Why Choose ChazeFashion?</h2>
+        <h2 class="text-3xl font-bold text-center mb-10 text-[#282c3f] custom-dark-theme:text-[#ff3f6c]">Why Choose ChazeFashion?</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="text-center p-8 bg-white custom-dark-theme:bg-[#232946] rounded-lg shadow-md" data-aos="fade-up" data-aos-delay="100">
                 <div class="flex flex-col items-center mb-4">
                     <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_4kx2q32n.json" background="transparent" speed="1" style="width: 60px; height: 60px;" loop autoplay aria-label="Fast delivery animation"></lottie-player>
                 </div>
-                <h3 class="text-xl font-semibold mb-2 ambient-accent">Fast Delivery</h3>
-                <p class="ambient-text opacity-70">Get your fashion items delivered to your doorstep quickly and safely.</p>
+                <h3 class="text-xl font-semibold mb-2 text-[#ff3f6c]">Fast Delivery</h3>
+                <p class="text-[#555] custom-dark-theme:text-[#e0eaff]">Get your fashion items delivered to your doorstep quickly and safely.</p>
             </div>
-            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="text-center p-8 bg-white custom-dark-theme:bg-[#232946] rounded-lg shadow-md" data-aos="fade-up" data-aos-delay="200">
                 <div class="flex flex-col items-center mb-4">
                     <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" background="transparent" speed="1" style="width: 60px; height: 60px;" loop autoplay aria-label="Quality products animation"></lottie-player>
                 </div>
-                <h3 class="text-xl font-semibold mb-2 ambient-accent">Quality Products</h3>
-                <p class="ambient-text opacity-70">We offer only the highest quality clothing and accessories.</p>
+                <h3 class="text-xl font-semibold mb-2 text-[#ff3f6c]">Quality Products</h3>
+                <p class="text-[#555] custom-dark-theme:text-[#e0eaff]">We offer only the highest quality clothing and accessories.</p>
             </div>
-            <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+            <div class="text-center p-8 bg-white custom-dark-theme:bg-[#232946] rounded-lg shadow-md" data-aos="fade-up" data-aos-delay="300">
                 <div class="flex flex-col items-center mb-4">
                     <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_ktwnwv5m.json" background="transparent" speed="1" style="width: 60px; height: 60px;" loop autoplay aria-label="Secure shopping animation"></lottie-player>
                 </div>
-                <h3 class="text-xl font-semibold mb-2 ambient-accent">Secure Shopping</h3>
-                <p class="ambient-text opacity-70">Your security is our priority with safe and secure payment options.</p>
+                <h3 class="text-xl font-semibold mb-2 text-[#ff3f6c]">Secure Shopping</h3>
+                <p class="text-[#555] custom-dark-theme:text-[#e0eaff]">Your security is our priority with safe and secure payment options.</p>
             </div>
         </div>
     </div>
